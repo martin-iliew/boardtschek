@@ -24,7 +24,7 @@ export async function registerUser(data: RegisterPayload): Promise<string> {
     }
 }
 
-// Login User
+
 interface LoginPayload {
     email: string;
     password: string;
@@ -33,9 +33,7 @@ interface LoginPayload {
 export async function loginUser(data: LoginPayload): Promise<string> {
     try {
         const response = await apiClient.post("/login", data);
-        // eslint-disable-next-line no-debugger
-        debugger;
-        return response.data.accessToken; // Return the token
+        return response.data.accessToken; 
     } catch (error: unknown) {
         if (axios.isAxiosError(error) && error.response) {
             throw error.response.data?.message || "Login failed.";
@@ -56,7 +54,7 @@ interface ChangePasswordPayload {
 export async function changePassword(data: ChangePasswordPayload): Promise<string> {
     try {
         const response = await apiClient.post("/api/Auth/change-password", data);
-        return response.data; // Return success message
+        return response.data; 
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
             throw error.response?.data || error.message;

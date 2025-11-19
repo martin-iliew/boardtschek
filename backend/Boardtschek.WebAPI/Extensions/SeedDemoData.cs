@@ -10,18 +10,20 @@ namespace Boardtschek.WebAPI.Extensions
         public static async Task SeedDemoDataAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
+
             var db = scope.ServiceProvider.GetRequiredService<BoardtschekDbContext>();
             var users = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
             var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-            // Seed ONLY when using SQLite
+            // Only for SQLite
             var provider = db.Database.ProviderName;
             if (provider == null || !provider.Contains("Sqlite", StringComparison.OrdinalIgnoreCase))
                 return;
 
+            // 1. Apply migrations BEFORE ANY CHECKS
             await db.Database.MigrateAsync();
 
-            // Admin
+            // 2. Seed admin role + admin user
             const string adminEmail = "admin@demo.com";
             const string adminPass = "Admin123!";
             const string adminRole = "Administrator";
@@ -40,11 +42,12 @@ namespace Boardtschek.WebAPI.Extensions
                     LastName = "Admin",
                     EmailConfirmed = true
                 };
+
                 await users.CreateAsync(admin, adminPass);
                 await users.AddToRoleAsync(admin, adminRole);
             }
 
-            // Skip if already seeded
+            // 3. Only seed games once
             if (await db.Games.AnyAsync())
                 return;
 

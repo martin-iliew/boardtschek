@@ -7,6 +7,8 @@ using Boardtschek.WebAPI.Extensions;
 using static Boardtschek.Common.EntityValidations.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 
 namespace Boardtschek.WebAPI
@@ -17,18 +19,24 @@ namespace Boardtschek.WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<BoardtschekDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            }
-             );
+                var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+                if (builder.Environment.IsDevelopment())
+                {
+                    options.UseSqlServer(connection);
+                }
+                else
+                {
+                    options.UseSqlite(connection);
+                }
+            });
 
             builder.Services.AddAuthorization();
 
@@ -62,7 +70,6 @@ namespace Boardtschek.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
-                // Add security definition
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -73,7 +80,7 @@ namespace Boardtschek.WebAPI
                     Description = "Enter your token in the text input below.\n\nExample: `abc123`"
                 });
 
-                // Add security requirement
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -93,8 +100,6 @@ namespace Boardtschek.WebAPI
             var app = builder.Build();
 
 
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

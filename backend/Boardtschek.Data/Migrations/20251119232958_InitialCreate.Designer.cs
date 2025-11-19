@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boardtschek.Data.Migrations
 {
     [DbContext(typeof(BoardtschekDbContext))]
-    [Migration("20241202190232_setupDatabase")]
-    partial class setupDatabase
+    [Migration("20251119232958_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

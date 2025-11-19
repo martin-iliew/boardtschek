@@ -1,10 +1,6 @@
-using System.Data;
-using System.Security.Claims;
 using Boardtschek.Data.Models;
 using Boardtschek.Services.Data.Interfaces;
-using Boardtschek.WebAPI.Infrastructure.Extensions;
 using Boardtschek.WebAPI.ViewModels.User;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

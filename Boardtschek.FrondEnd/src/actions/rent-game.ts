@@ -1,5 +1,5 @@
 import * as z from "zod";
-
+import apiClient from "@/api/axios";
 const rentalSchema = z.object({
   gameId: z.string().uuid(), 
   startDate: z.string(), 
@@ -34,39 +34,10 @@ export async function rentGame(data: Omit<RentalFormData, "gameId">) {
       errors: result.error.errors, 
     };
   }
-
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const response = await fetch(`http://localhost:5050/api/Rental/Rent/${gameId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(result.data), 
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Backend Error:", errorData);
-      return {
-        success: false,
-        message: errorData.message || "An error occurred while renting the game.",
-        statusCode: response.status,
-      };
-    }
-
-
-    return {
-      success: true,
-      message: "Game rented successfully!",
-    };
-  } catch (error) {
-    console.error("Error during rentGame API call:", error);
-    return {
-      success: false,
-      message: "Network error or server unavailable.",
-    };
-  }
+  // eslint-disable-next-line no-debugger
+  debugger;
+  const response = await apiClient.post(`/api/Rental/Rent/${gameId}`, result.data);
+  return response.data;  
 }
 
 

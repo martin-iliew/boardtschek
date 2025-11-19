@@ -1,10 +1,8 @@
 ﻿using Boardtschek.Services.Data.Interfaces;
 using Boardtschek.WebAPI.Infrastructure.Extensions;
 using Boardtschek.WebAPI.ViewModels.Game;
-using Boardtschek.WebAPI.ViewModels.Rental;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using static Boardtschek.Common.EntityValidations.GeneralApplicationConstants;
 
 namespace Boardtschek.WebAPI.Controllers

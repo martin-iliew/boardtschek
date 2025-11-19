@@ -34,6 +34,11 @@ namespace Boardtschek.WebAPI.Controllers
             {
                 string userId = User.GetId();
                 UserProfileViewModel model = await userService.GetUserProfileInformation(userId);
+                if (model == null)
+                {
+                    return NotFound("User profile not found.");
+                }
+
                 return Ok(model);
             }
             catch (Exception ex)

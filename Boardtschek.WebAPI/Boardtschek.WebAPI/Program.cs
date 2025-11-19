@@ -28,7 +28,7 @@ namespace Boardtschek.WebAPI
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             }
-                );
+             );
 
             builder.Services.AddAuthorization();
 
@@ -110,7 +110,6 @@ namespace Boardtschek.WebAPI
             app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
-
             await app.SeedAdministrator(DevelopmentAdminEmail);
 
             app.MapControllers();

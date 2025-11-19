@@ -1,10 +1,8 @@
-﻿using Boardtschek.Services.Data;
-using Boardtschek.Services.Data.Interfaces;
+﻿using Boardtschek.Services.Data.Interfaces;
 using Boardtschek.WebAPI.Infrastructure.Extensions;
 using Boardtschek.WebAPI.ViewModels.Rental;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Boardtschek.WebAPI.Controllers
 {
@@ -22,6 +20,7 @@ namespace Boardtschek.WebAPI.Controllers
 
 
         [HttpPost]
+        [Authorize]
         [Route("Rent/{id}")]
         public async Task<IActionResult> Rent(RentGameFormViewModel model, string id)
         {
@@ -65,7 +64,7 @@ namespace Boardtschek.WebAPI.Controllers
                 string userId = User.GetId();
 
                 // Rent the game (this will include updating the rental records in the database)
-                await gameService.RentGame(model, userId, id);
+                 await gameService.RentGame(model, userId, id);
 
                 return Ok(new { message = "Game rented successfully!" });
             }

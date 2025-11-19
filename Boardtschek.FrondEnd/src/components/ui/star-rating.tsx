@@ -72,7 +72,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
               <Star
                 className={cn(
                   starSizes[size],
-                  "text-yellow-400 fill-yellow-400 absolute left-0"
+                  "text-yellow-400 fill-yellow-400 absolute left-0 bg-primary"
                 )}
                 aria-hidden="true"
               />

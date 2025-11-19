@@ -70,7 +70,7 @@ function App() {
           <Route
             path="/add-game"
             element={
-              <AuthGuard requiredRole="admin">
+              <AuthGuard>
                 <AddGamePage />
               </AuthGuard>
             }
@@ -78,7 +78,7 @@ function App() {
           <Route
             path="/edit-game/:id"
             element={
-              <AuthGuard requiredRole="admin">
+              <AuthGuard>
                 <EditGameByIdPage />
               </AuthGuard>
             }

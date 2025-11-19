@@ -1,26 +1,20 @@
+# ---- Build stage ----
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+# Copy everything inside backend
+COPY . .
 
-COPY ../Boardtschek.sln ./
-COPY ../Boardtschek.Common ./Boardtschek.Common
-COPY ../Boardtschek.Data ./Boardtschek.Data
-COPY ../Boardtschek.Data.Models ./Boardtschek.Data.Models
-COPY ../Boardtschek.Services.Data ./Boardtschek.Services.Data
-COPY . ./Boardtschek.WebAPI
-COPY ../Boardtschek.WebAPI.ViewModels ./Boardtschek.WebAPI.ViewModels
-COPY ../Boardtschek.WebAPI.Infrastructure ./Boardtschek.WebAPI.Infrastructure
-
-
+# Restore only the WebAPI project
 RUN dotnet restore ./Boardtschek.WebAPI/Boardtschek.WebAPI.csproj
 
-
+# Publish WebAPI
 RUN dotnet publish ./Boardtschek.WebAPI/Boardtschek.WebAPI.csproj \
-    -c Release \
-    -o /app/publish
+    -c Release -o /app/publish
 
+
+# ---- Runtime stage ----
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-
 
 RUN apt-get update \
     && apt-get install -y libsqlite3-dev \

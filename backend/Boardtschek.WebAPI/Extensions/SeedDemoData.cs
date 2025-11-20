@@ -14,7 +14,6 @@ namespace Boardtschek.WebAPI.Extensions
             var users = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
             var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-            // Seed ONLY when using SQLite
             var provider = db.Database.ProviderName;
             if (provider == null || !provider.Contains("Sqlite", StringComparison.OrdinalIgnoreCase))
                 return;

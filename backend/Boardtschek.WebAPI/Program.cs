@@ -131,7 +131,12 @@ namespace Boardtschek.WebAPI
 
                 if (app.Environment.IsProduction())
                 {
-                    await app.SeedDemoDataAsync(); 
+                    using var scope2 = app.Services.CreateScope();
+                    var dbProd = scope2.ServiceProvider.GetRequiredService<BoardtschekDbContext>();
+
+                    await dbProd.Database.MigrateAsync();
+
+                    await app.SeedDemoDataAsync();
                 }
             }
 

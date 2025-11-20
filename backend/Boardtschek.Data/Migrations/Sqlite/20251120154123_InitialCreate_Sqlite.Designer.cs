@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boardtschek.Data.Migrations.Sqlite
 {
     [DbContext(typeof(BoardtschekDbContext))]
-    [Migration("20251120152539_InitialCreate_Sqlite")]
+    [Migration("20251120154123_InitialCreate_Sqlite")]
     partial class InitialCreate_Sqlite
     {
         /// <inheritdoc />

@@ -123,8 +123,16 @@ namespace Boardtschek.WebAPI
                 var services = scope.ServiceProvider;
                 var db = services.GetRequiredService<BoardtschekDbContext>();
 
-                await db.Database.MigrateAsync();
-                await app.SeedAdministratorAsync(DevelopmentAdminEmail);
+                if (app.Environment.IsDevelopment())
+                {
+                    await db.Database.MigrateAsync();
+                    await app.SeedAdministratorAsync(DevelopmentAdminEmail);
+                }
+
+                if (app.Environment.IsProduction())
+                {
+                    await app.SeedDemoDataAsync(); 
+                }
             }
 
             app.MapIdentityApi<AppUser>();

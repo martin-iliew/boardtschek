@@ -19,7 +19,6 @@ namespace Boardtschek.WebAPI.Extensions
             if (provider == null || !provider.Contains("Sqlite", StringComparison.OrdinalIgnoreCase))
                 return;
 
-
             // Admin
             const string adminEmail = "admin@demo.com";
             const string adminPass = "Admin123!";
@@ -39,6 +38,7 @@ namespace Boardtschek.WebAPI.Extensions
                     LastName = "Admin",
                     EmailConfirmed = true
                 };
+
                 await users.CreateAsync(admin, adminPass);
                 await users.AddToRoleAsync(admin, adminRole);
             }

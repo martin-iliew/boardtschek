@@ -4,16 +4,19 @@ using Boardtschek.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Boardtschek.Data.Migrations.Sqlite
+namespace Boardtschek.Data.Migrations
 {
     [DbContext(typeof(BoardtschekDbContext))]
-    partial class BoardtschekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202190232_setupDatabase")]
+    partial class setupDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

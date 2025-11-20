@@ -9,8 +9,10 @@ interface GameCardProps {
   id: string;
   title: string;
   image: string;
+  rating?: number;
+  quantity?: number;
+  nextAvailable?: string;
 }
-
 export function GameCard({ id, title, image }: GameCardProps) {
   // State variables related to like button logic (commented out)
   // const [isLiked, setIsLiked] = useState(false);
@@ -58,20 +60,20 @@ export function GameCard({ id, title, image }: GameCardProps) {
 
   return (
     <Card className="flex flex-col h-full transition-shadow duration-300 hover:shadow-lg">
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-lg">
+      <div className="relative aspect-4/3 w-full overflow-hidden rounded-t-lg">
         <img
           src={image}
           alt={title}
           className="object-cover w-full h-full transition-transform duration-300 ease-in-out"
         />
       </div>
-      <CardContent className="flex-grow p-4">
+      <CardContent className="grow p-4">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold text-subtext">{title}</h3>
 
           {/* Commented out Like Button */}
           {/* <Button
-            variant="outlinePrimary"
+            variant="outline"
             aria-label="like"
             className="p-2 rounded-full hover:bg-gray-100"
             onClick={handleLikeToggle}
@@ -108,7 +110,7 @@ export function GameCard({ id, title, image }: GameCardProps) {
             </Button>
           </Link>
           <Link to={`/game/${id}`}>
-            <Button variant="outlinePrimary" aria-label="learn more">
+            <Button variant="outline" aria-label="learn more">
               Learn more
             </Button>
           </Link>

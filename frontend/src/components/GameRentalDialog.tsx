@@ -1,12 +1,11 @@
 import * as React from "react";
 import { addDays, format, isSameDay } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+// import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+// import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +31,7 @@ import {
 import { cn } from "@/lib/utils";
 import { rentGame, RentalFormData } from "@/actions/rent-game";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -75,7 +75,7 @@ export default function GameRentalDialog() {
   } | null>(null);
   const { gameId } = useParams<{ gameId: string }>();
 
-  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
+  const { control, handleSubmit, watch } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       startDate: new Date(),
@@ -91,14 +91,10 @@ export default function GameRentalDialog() {
   const startTime = watch("startTime");
   const endTime = watch("endTime");
 
-  const { toast } = useToast();
-
   const onSubmit = async (data: FormData) => {
     if (!gameId) {
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "Game ID is {missing} or invalid.",
-        variant: "destructive",
       });
       return;
     }
@@ -124,35 +120,31 @@ export default function GameRentalDialog() {
     setSubmissionState(result);
     console.log(result);
     if (result.success) {
-      toast({
-        title: "Success!",
+      toast("Success!", {
         description: `Your rental for Game ID: ${gameId} has been successfully submitted!`,
-        variant: "default",
       });
       setIsOpen(false);
     } else {
-      toast({
-        title: "Error:",
+      toast("Error:", {
         description: result.message,
-        variant: "destructive",
       });
     }
   };
 
-  const handleStartDateSelect = (date: Date | undefined) => {
-    if (date) {
-      setValue("startDate", date);
-      if (!endDate || endDate < date) {
-        setValue("endDate", date);
-      }
-    }
-  };
+  // const handleStartDateSelect = (date: Date | undefined) => {
+  //   if (date) {
+  //     setValue("startDate", date);
+  //     if (!endDate || endDate < date) {
+  //       setValue("endDate", date);
+  //     }
+  //   }
+  // };
 
-  const handleEndDateSelect = (date: Date | undefined) => {
-    if (date && startDate && date >= startDate) {
-      setValue("endDate", date);
-    }
-  };
+  // const handleEndDateSelect = (date: Date | undefined) => {
+  //   if (date && startDate && date >= startDate) {
+  //     setValue("endDate", date);
+  //   }
+  // };
 
   const isEndTimeValid = (hour: string) => {
     if (isSameDay(startDate, endDate)) {
@@ -172,10 +164,8 @@ export default function GameRentalDialog() {
       const startTimeFormatted = `${startTime}:00`;
       const endTimeFormatted = `${endTime}:00`;
       const description = `From ${startDateFormatted} at ${startTimeFormatted} to ${endDateFormatted} at ${endTimeFormatted}`;
-      toast({
-        title: submissionState.success ? "Success!" : "Error",
+      toast(submissionState.success ? "Success!" : "Error", {
         description: `${submissionState.message} - ${description}`,
-        variant: submissionState.success ? "default" : "destructive",
       });
     }
   };
@@ -207,22 +197,22 @@ export default function GameRentalDialog() {
                     <PopoverTrigger asChild>
                       <Button
                         id="start-date"
-                        variant={"outlineSecondary"}
+                        variant={"outline"}
                         className={cn(
-                          "w-[240px] justify-start text-left font-normal",
+                          "w-60 justify-start text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {/* <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
                           format(field.value, "PPP")
                         ) : (
                           <span>Pick a date</span>
-                        )}
+                        )} */}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      {/* <Calendar
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
@@ -230,7 +220,7 @@ export default function GameRentalDialog() {
                           handleStartDateSelect(date);
                         }}
                         initialFocus
-                      />
+                      /> */}
                     </PopoverContent>
                   </Popover>
                 )}
@@ -271,22 +261,22 @@ export default function GameRentalDialog() {
                     <PopoverTrigger asChild>
                       <Button
                         id="end-date"
-                        variant={"outlineSecondary"}
+                        variant={"outline"}
                         className={cn(
-                          "w-[240px] justify-start text-left font-normal",
+                          "w-60 justify-start text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {/* <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
                           format(field.value, "PPP")
                         ) : (
                           <span>Pick a date</span>
-                        )}
+                        )} */}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      {/* <Calendar
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
@@ -294,8 +284,7 @@ export default function GameRentalDialog() {
                           handleEndDateSelect(date);
                         }}
                         disabled={(date) => date < startDate}
-                        initialFocus
-                      />
+                      /> */}
                     </PopoverContent>
                   </Popover>
                 )}

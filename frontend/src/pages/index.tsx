@@ -33,7 +33,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main id="content" className="min-h-[100dvh]" tabIndex={-1}>
+    <main id="content" className="min-h-dvh" tabIndex={-1}>
       <section className="" data-sublocation="Hero" aria-hidden="false">
         <div
           className="inner"
@@ -58,7 +58,7 @@ export default function HomePage() {
                 </Button>
               </Link>
               <Link to="/rent">
-                <Button className="mt-4" variant={"outlinePrimary"} size={"lg"}>
+                <Button className="mt-4" variant={"outline"} size={"lg"}>
                   Browse Rentals
                 </Button>
               </Link>

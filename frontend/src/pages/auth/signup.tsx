@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { registerUser } from "@/api/auth.ts";
+import { ROUTES } from "@/routes";
 
 const formSchema = z.object({
   firstName: z
@@ -58,7 +59,7 @@ export default function CreateAccountPage() {
     try {
       const successMessage = await registerUser(values);
       alert(successMessage);
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     } catch (error: unknown) {
       alert(error);
     }

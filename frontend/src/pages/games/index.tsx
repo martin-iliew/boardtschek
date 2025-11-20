@@ -28,7 +28,7 @@ export default function AllGamesPage() {
   }, []);
 
   return (
-    <main id="content" className="min-h-[100dvh]" tabIndex={-1}>
+    <main id="content" className="min-h-dvh" tabIndex={-1}>
       <section className="" data-sublocation="Hero" aria-hidden="false">
         <div
           className="inner"

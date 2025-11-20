@@ -35,7 +35,7 @@ export default function SettingsPage() {
   }, []);
 
   return (
-    <main id="content" className="min-h-[100dvh]" tabIndex={-1}>
+    <main id="content" className="min-h-dvh" tabIndex={-1}>
       <section className="" data-sublocation="Hero" aria-hidden="false">
         <div
           className="inner"
@@ -57,7 +57,7 @@ export default function SettingsPage() {
 
       <section className="bg-foreground">
         <div className="min-h-screen p-8">
-          <div className="mx-auto shadow rounded-lg bg-background p-14">
+          <div className="mx-auto shadow-sm rounded-lg bg-background p-14">
             {/* Profile Details */}
 
             {/* Liked Games */}

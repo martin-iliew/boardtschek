@@ -98,7 +98,7 @@ export function OverdueRentalCard({
               Would you like to leave a comment or rating?
             </p>
             {/* <Button
-              variant="outlinePrimary"
+              variant="outline"
               className="w-full mt-2"
               onClick={handleLeaveComment}
             >

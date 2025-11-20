@@ -1,43 +1,148 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Extend Tailwind theme (do NOT nuke defaults) */
+@theme {
+  /* Font */
+  --font-sans: Recursive, ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Radius: derived from a base --radius token */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Semantic colors mapping to your CSS vars */
+  --color-background: var(--background);
+  --color-background-text: var(--text);
+  --color-background-subtext: var(--subtext);
+  --color-background-context: var(--context);
+
+  --color-foreground: var(--foreground);
+  --color-foreground-text: var(--foreground-text);
+  --color-foreground-subtext: var(--foreground-subtext);
+  --color-foreground-context: var(--foreground-context);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-hover: var(--accent-hover);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+/* Custom utilities */
+@utility inner {
+  @apply mx-[6.4%] block;
+
+  @media (min-width: 480px) {
+    @apply mx-[5%];
+  }
+
+  @media (min-width: 768px) {
+    @apply mx-[6.25%];
+  }
+
+  @media (min-width: 960px) {
+    @apply mx-[5%];
+  }
+
+  @media (min-width: 1120px) {
+    @apply mx-[5.715%];
+  }
+
+  @media (min-width: 1440px) {
+    @apply mx-[5.278%];
+  }
+
+  @media (min-width: 1680px) {
+    @apply mx-auto max-w-(--breakpoint-xl);
+  }
+}
+
+@utility nav-inner {
+  height: var(--nav-height);
+  padding: 0 var(--nav-gutter);
+}
+
+/* Brand tokens + dark mode (single source of truth) */
 @layer base {
   :root {
     --background: #f7f7f7;
     --background-tone: #eae6e6;
     --foreground: #212529;
+
     --text: #000000;
     --subtext: #1f242c;
     --context: #606f88;
+
     --foreground-text: #ffffff;
     --foreground-subtext: #e8e8e8;
     --foreground-context: #dfdfdf;
+
     --card: #ffffff;
     --card-foreground: #212529;
+
     --popover: #ffffff;
     --popover-foreground: #212529;
+
     --primary: #f58220;
     --primary-foreground: #ffffff;
     --primary-hover: #e17414;
+
     --secondary: #fcb94d;
     --secondary-foreground: #f6c475;
     --secondary-hover: #f8b400;
+
     --accent: #3361b3;
     --accent-foreground: #dde6f7;
     --accent-hover: #2851a2;
+
     --muted: #6c757d;
     --muted-foreground: #212529;
+
     --destructive: #dc3545;
     --destructive-foreground: #ffffff;
+
     --border: #d1d1d6;
     --input: #d1d1d6;
     --ring: #2851a2;
+
     --chart-1: #fcb94d;
     --chart-2: #f58220;
     --chart-3: #2851a2;
     --chart-4: #6c757d;
     --chart-5: #212529;
+
     --radius: 0.5rem;
   }
 
@@ -45,32 +150,43 @@
     --background: #191919;
     --background-tone: #252525;
     --foreground: #f7f7f7;
+
     --text: #ffffff;
     --subtext: #dfdfdf;
     --context: #dfdfdf;
+
     --foreground-text: #000000;
     --foreground-subtext: #374151;
     --foreground-context: #606f88;
+
     --card: #212224;
     --card-foreground: #f7f7f7;
+
     --popover: #343a40;
     --popover-foreground: #f7f7f7;
+
     --primary: #f58220;
     --primary-foreground: #212529;
     --primary-hover: #f39c12;
+
     --secondary: #6c757d;
     --secondary-foreground: #f7f7f7;
     --secondary-hover: #f8b400;
+
     --muted: #495057;
     --muted-foreground: #adb5bd;
+
     --accent: #2851a2;
     --accent-foreground: #f7f7f7;
     --accent-hover: #336b9a;
+
     --destructive: #dc3545;
     --destructive-foreground: #f7f7f7;
+
     --border: #495057;
     --input: #495057;
     --ring: #2851a2;
+
     --chart-1: #fcb94d;
     --chart-2: #f58220;
     --chart-3: #2851a2;
@@ -79,64 +195,27 @@
   }
 }
 
+/* Global base styles */
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-family: "Recursive", sans-serif;
+    font-family: "Recursive", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
   }
 }
 
+/* Layout-related utilities (nav sizes) */
 @layer utilities {
-  .inner {
-    @apply mx-[6.4%] block;
-  }
-  @media (min-width: 480px) {
-    .inner {
-      @apply mx-[5%];
-    }
-  }
-
-  @media (min-width: 768px) {
-    .inner {
-      @apply mx-[6.25%];
-    }
-  }
-
-  @media (min-width: 960px) {
-    .inner {
-      @apply mx-[5%];
-    }
-  }
-
-  @media (min-width: 1120px) {
-    .inner {
-      @apply mx-[5.715%];
-    }
-  }
-
-  @media (min-width: 1440px) {
-    .inner {
-      @apply mx-[5.278%];
-    }
-  }
-
-  @media (min-width: 1680px) {
-    .inner {
-      @apply mx-auto max-w-screen-xl;
-    }
-  }
-  .nav-inner {
-    height: var(--nav-height);
-    padding: 0 var(--nav-gutter);
-  }
   :root {
     --nav-gutter: 16px;
     --nav-height: 40px;
     --nav-search-height: 60px;
   }
+
   @media (min-width: 790px) {
     :root {
       --nav-gutter: 40px;

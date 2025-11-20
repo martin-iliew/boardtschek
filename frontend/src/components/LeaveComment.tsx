@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { StarRating } from "@/components/ui/star-rating";
+import { StarRating } from "@/components/star-rating";
 
 interface LeaveCommentProps {
   onSubmit: (comment: { text: string; rating?: number }) => void;
@@ -34,7 +34,7 @@ export const LeaveComment = ({ onSubmit }: LeaveCommentProps) => {
         <span className="text-sm font-semibold">Rating (optional):</span>
         <StarRating rating={rating || 0} onChange={setRating} size="md" />
       </div>
-      <Button onClick={handleSubmit} variant={"outlinePrimary"}>
+      <Button onClick={handleSubmit} variant={"outline"}>
         Submit Comment
       </Button>
     </div>

@@ -38,7 +38,7 @@ export default function SearchResultsPage() {
   }, [query]);
 
   return (
-    <main id="content" className="min-h-[100dvh]" tabIndex={-1}>
+    <main id="content" className="min-h-dvh" tabIndex={-1}>
       {/* Hero Section */}
       <section data-sublocation="Hero" aria-hidden="false">
         <div
@@ -94,11 +94,12 @@ export default function SearchResultsPage() {
               {games.map((game) => (
                 <GameCard
                   key={game.id}
+                  id={game.id} 
                   title={game.title}
                   image={game.imageUrl}
-                  rating={game.rating || 0}
-                  quantity={game.quantity || 0}
-                  nextAvailable={game.nextAvailable || ""}
+                  rating={game.rating}
+                  quantity={game.quantity}
+                  nextAvailable={game.nextAvailable}
                 />
               ))}
             </div>

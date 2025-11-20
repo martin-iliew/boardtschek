@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { LeaveComment } from "@/components/LeaveComment";
 import CommentsCard from "@/components/CommentsCard";
-import { StarRating } from "@/components/ui/star-rating";
+import { StarRating } from "@/components/star-rating";
 import GameRentalDialog from "@/components/GameRentalDialog";
 import apiClient from "@/api/apiClient";
 import { useParams } from "react-router-dom";
@@ -141,7 +141,7 @@ const GameDetails = () => {
           <div className="flex flex-col gap-4 sm:flex-row">
             <GameRentalDialog />
             <Link to={`/edit-game/${gameDetails?.id}`}>
-              <Button variant="outlinePrimary">Edit Game</Button>
+              <Button variant="outline">Edit Game</Button>
             </Link>
           </div>
         </div>

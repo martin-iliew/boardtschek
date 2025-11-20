@@ -104,18 +104,12 @@ export default function GameDashboard() {
         )}
         <div className="flex justify-center mt-4 space-x-4">
           {activeRentalsToShow < user.activeRentedGames?.length && (
-            <Button
-              onClick={handleSeeMoreActiveRentals}
-              variant="outlinePrimary"
-            >
+            <Button onClick={handleSeeMoreActiveRentals} variant="outline">
               See More
             </Button>
           )}
           {activeRentalsToShow > INITIAL_CARDS_TO_SHOW && (
-            <Button
-              onClick={handleSeeLessActiveRentals}
-              variant="outlinePrimary"
-            >
+            <Button onClick={handleSeeLessActiveRentals} variant="outline">
               See Less
             </Button>
           )}

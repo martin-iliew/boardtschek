@@ -4,11 +4,11 @@ import {
   setToken,
   getRefreshToken,
   setRefreshToken,
-  removeToken,
-  removeRefreshToken,
+  logoutUser,
 } from "@/lib/utils";
+import { ROUTES } from "@/routes";
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5050/";
+const apiBaseUrl = "http://localhost:5050";
 
 const apiClient = axios.create({
   baseURL: apiBaseUrl,
@@ -19,7 +19,7 @@ const apiClient = axios.create({
 });
 
 let isRefreshing = false;
-let refreshQueue: Array<(token: string | null) => void> = [];
+let refreshQueue: Array<(token: string | null, err?: unknown) => void> = [];
 
 apiClient.interceptors.request.use(
   (config) => {
@@ -38,23 +38,28 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (!error.response || !originalRequest) {
+      return Promise.reject(error);
+    }
+
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const refreshTokenValue = getRefreshToken();
       if (!refreshTokenValue) {
-        removeToken();
-        removeRefreshToken();
-        window.location.href = "/login";
+        logoutUser();
+        window.location.href = ROUTES.LOGIN;
         return Promise.reject(error);
       }
 
       if (isRefreshing) {
-        return new Promise((resolve) => {
-          refreshQueue.push((newToken) => {
-            if (newToken) {
-              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return new Promise((resolve, reject) => {
+          refreshQueue.push((newToken, err) => {
+            if (err || !newToken) {
+              reject(err ?? new Error("Refresh token failed"));
+              return;
             }
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
             resolve(apiClient(originalRequest));
           });
         });
@@ -85,11 +90,11 @@ apiClient.interceptors.response.use(
         console.error("Refresh token failed:", refreshError);
 
         isRefreshing = false;
+        refreshQueue.forEach((cb) => cb(null, refreshError));
         refreshQueue = [];
 
-        removeToken();
-        removeRefreshToken();
-        window.location.href = "/login";
+        logoutUser();
+        window.location.href = ROUTES.LOGIN;
 
         return Promise.reject(refreshError);
       }

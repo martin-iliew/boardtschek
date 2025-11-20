@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -10,11 +9,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "../components/ui/form.tsx";
-import { Input } from "../components/ui/input.tsx";
-import { Button } from "../components/ui/button.tsx";
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { setToken } from "@/lib/utils.ts";
 import { loginUser } from "@/api/auth.ts";
+import { ROUTES } from "@/routes.ts";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -25,7 +25,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function LoginFormPage() {
+export default function LoginPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -115,7 +115,7 @@ export default function LoginFormPage() {
               <div className="mt-2 text-center text-sm text-neutral-700">
                 Don't have an account?{" "}
                 <Link
-                  to="/create-account"
+                  to={ROUTES.REGISTER}
                   className="underline text-background-text"
                 >
                   Sign up

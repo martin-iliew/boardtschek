@@ -35,7 +35,7 @@ export function RentalHistoryCard({
           <p>Rented: {new Date(rentalDate).toLocaleDateString()}</p>
           <p>Returned: {new Date(returnDate).toLocaleDateString()}</p>
         </div>
-        <Button className="w-full" variant="outlinePrimary">
+        <Button className="w-full" variant="outline">
           Rent Again
         </Button>
       </CardFooter>

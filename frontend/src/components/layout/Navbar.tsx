@@ -3,7 +3,8 @@ import Logo from "@/components/Logo";
 import AccountMenu from "@/components/AccountMenu";
 import { ModeToggle } from "@/components/theme-provider/ModeToggle";
 import SearchForm from "@/components/SearchForm";
-import "../App.css";
+import "@/App.css";
+import { ROUTES } from "@/routes";
 
 export default function Navbar() {
   return (
@@ -22,7 +23,7 @@ export default function Navbar() {
             <ul className="flex gap-8">
               <li>
                 <Link
-                  to="/games"
+                  to={ROUTES.GAMES}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
                   All Games
@@ -30,7 +31,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Link
-                  to="/settings"
+                  to={ROUTES.SETTINGS}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
                   My Rented Games
@@ -38,7 +39,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Link
-                  to="/add-game"
+                  to={ROUTES.ADD_GAME}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
                   Add Game

@@ -1,14 +1,14 @@
-import { StarRating } from "@/components/ui/star-rating";
+import { StarRating } from "@/components/star-rating";
 
 interface Comment {
   username: string;
   time: string;
   comment: string;
-  score?: number; 
+  score?: number;
 }
 
 interface CommentsCardProps {
-  comments: Comment[]; 
+  comments: Comment[];
 }
 
 const CommentsCard: React.FC<CommentsCardProps> = ({ comments }) => {

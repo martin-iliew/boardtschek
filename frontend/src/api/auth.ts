@@ -1,14 +1,6 @@
 import apiClient from "@/api/apiClient";
 import axios from "axios";
-import {
-  setToken,
-  setRefreshToken,
-  getRefreshToken,
-  removeToken,
-  removeRefreshToken,
-} from "@/lib/utils";
-
-const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5050/";
+import { setToken, setRefreshToken } from "@/lib/utils";
 
 interface RegisterPayload {
   firstName: string;
@@ -71,40 +63,6 @@ export async function changePassword(
     } else {
       throw "An unexpected error occurred.";
     }
-  }
-}
-
-export async function refreshToken(): Promise<string | null> {
-  const currentRefresh = getRefreshToken();
-  if (!currentRefresh) return null;
-
-  try {
-    const response = await axios.post(
-      `${apiBaseUrl}/refresh`,
-      { refreshToken: currentRefresh },
-      { withCredentials: true }
-    );
-
-    const { accessToken, refreshToken: newRefreshToken } = response.data;
-    setToken(accessToken);
-    setRefreshToken(newRefreshToken);
-    return accessToken;
-  } catch (error) {
-    console.error("Refresh token request failed", error);
-    removeToken();
-    removeRefreshToken();
-    return null;
-  }
-}
-
-export async function logoutUser(): Promise<void> {
-  try {
-    await apiClient.post("/logout");
-  } catch (error) {
-    console.error("Logout request failed", error);
-  } finally {
-    removeToken();
-    removeRefreshToken();
   }
 }
 

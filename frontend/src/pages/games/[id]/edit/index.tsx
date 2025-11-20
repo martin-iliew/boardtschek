@@ -267,7 +267,7 @@ export default function EditGamePage() {
             <div className="flex justify-between">
               <Button
                 type="button"
-                variant="outlinePrimary"
+                variant="outline"
                 onClick={() => navigate("/games")}
                 size="lg"
               >

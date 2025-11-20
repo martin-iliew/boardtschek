@@ -45,8 +45,8 @@
 //         </DialogHeader>
 //         <div className="space-y-4">
 //           <Button
-//             variant="outlinePrimary"
-//             onClick={() => setWantsToComment(!wantsToComment)} 
+//             variant="outline"
+//             onClick={() => setWantsToComment(!wantsToComment)}
 //             className="w-full"
 //           >
 //             {wantsToComment ? "Hide Comment Section" : "Add a Comment"}

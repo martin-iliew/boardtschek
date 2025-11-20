@@ -39,7 +39,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="h-12 border border-subtext rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+          className="h-12 border border-subtext rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary transition-all duration-300"
           aria-label={ariaLabel}
         />
 

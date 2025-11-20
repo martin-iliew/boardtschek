@@ -1,14 +1,7 @@
 import { useState, useEffect, useCallback, ReactNode } from "react";
 import { AuthContext, AuthContextType } from "./AuthContext";
-import {
-  setToken,
-  getToken,
-  decodeToken,
-  removeToken,
-  removeRefreshToken,
-  isTokenExpired,
-} from "@/lib/utils";
-import { refreshToken as requestRefreshToken, logoutUser } from "@/api/auth";
+import { setToken, getToken, decodeToken, logoutUser } from "@/lib/utils";
+import { ROUTES } from "@/routes";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -34,28 +27,27 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     [setUserRoleFromToken]
   );
 
-  const forceLogout = () => {
-    removeToken();
-    removeRefreshToken();
+  const logoutOnError = () => {
+    logoutUser();
     setTokenState(null);
     setUserRole(null);
-    window.location.href = "/login";
+    window.location.href = ROUTES.LOGIN;
+  };
+
+  const logout = () => {
+    logoutUser();
+    window.location.href = ROUTES.LOGOUT;
   };
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = () => {
       try {
         const storedAccessToken = getToken();
-        if (!storedAccessToken || isTokenExpired(storedAccessToken)) {
-          const newAccessToken = await requestRefreshToken();
-          if (newAccessToken) {
-            applyToken(newAccessToken);
-          }
-        } else {
+        if (storedAccessToken) {
           applyToken(storedAccessToken);
         }
       } catch {
-        forceLogout();
+        logoutOnError();
       } finally {
         setIsLoading(false);
       }
@@ -64,19 +56,14 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     initializeAuth();
   }, [applyToken]);
 
-  const logout = () => {
-    forceLogout();
-    logoutUser();
-  };
-
   const authContextValue: AuthContextType = {
     token,
     userRole,
-    logout,
-    setTokenState: applyToken,
     isLoading,
     isAuthenticated: !!token,
-    forceLogout,
+    setTokenState: applyToken,
+    logout,
+    logoutOnError,
   };
 
   return (

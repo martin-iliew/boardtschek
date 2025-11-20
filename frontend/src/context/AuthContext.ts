@@ -7,7 +7,7 @@ export interface AuthContextType {
   isLoading: boolean;
   setTokenState: (token: string | null) => void;
   logout: () => void;
-  forceLogout: () => void;
+  logoutOnError: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(

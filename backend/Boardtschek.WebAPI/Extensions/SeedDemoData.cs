@@ -14,10 +14,14 @@ namespace Boardtschek.WebAPI.Extensions
             var users = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
             var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
+            // Seed ONLY when using SQLite
             var provider = db.Database.ProviderName;
             if (provider == null || !provider.Contains("Sqlite", StringComparison.OrdinalIgnoreCase))
                 return;
 
+            await db.Database.MigrateAsync();
+
+            // Admin
             // Admin
             const string adminEmail = "admin@demo.com";
             const string adminPass = "Admin123!";
@@ -37,11 +41,11 @@ namespace Boardtschek.WebAPI.Extensions
                     LastName = "Admin",
                     EmailConfirmed = true
                 };
-
                 await users.CreateAsync(admin, adminPass);
                 await users.AddToRoleAsync(admin, adminRole);
             }
 
+            // Skip if already seeded
             // Skip if already seeded
             if (await db.Games.AnyAsync())
                 return;

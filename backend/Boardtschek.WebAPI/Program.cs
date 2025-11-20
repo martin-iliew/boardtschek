@@ -7,6 +7,9 @@ using Boardtschek.WebAPI.Extensions;
 using static Boardtschek.Common.EntityValidations.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+
 
 
 
@@ -146,6 +149,7 @@ namespace Boardtschek.WebAPI
             app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
+            await app.SeedAdministratorAsync(DevelopmentAdminEmail);
 
             app.MapControllers();
 

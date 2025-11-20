@@ -7,7 +7,6 @@ using Boardtschek.WebAPI.Extensions;
 using static Boardtschek.Common.EntityValidations.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -109,13 +108,21 @@ namespace Boardtschek.WebAPI
                 });
             }
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var db = services.GetRequiredService<BoardtschekDbContext>();
+
+                await db.Database.MigrateAsync();
+                await app.SeedAdministratorAsync(DevelopmentAdminEmail);
+            }
+
             app.MapIdentityApi<AppUser>();
 
             app.UseHttpsRedirection();
             app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
-            await app.SeedAdministratorAsync(DevelopmentAdminEmail);
 
             app.MapControllers();
 

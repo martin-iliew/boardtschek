@@ -25,15 +25,25 @@ namespace Boardtschek.WebAPI
 
             builder.Services.AddDbContext<BoardtschekDbContext>(options =>
             {
-                var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-
                 if (builder.Environment.IsDevelopment())
                 {
-                    options.UseSqlServer(connection);
+                    options.UseSqlServer(
+                        builder.Configuration.GetConnectionString("DefaultConnection"),
+                        sql =>
+                        {
+                            sql.MigrationsAssembly("Boardtschek.Data");
+                            sql.MigrationsHistoryTable("__EFMigrationsHistory", "SqlServer");
+                        });
                 }
                 else
                 {
-                    options.UseSqlite(connection);
+                    options.UseSqlite(
+                        builder.Configuration.GetConnectionString("DefaultConnection"),
+                        sqlite =>
+                        {
+                            sqlite.MigrationsAssembly("Boardtschek.Data");
+                            sqlite.MigrationsHistoryTable("__EFMigrationsHistory", "Sqlite");
+                        });
                 }
             });
 

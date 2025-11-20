@@ -6,12 +6,12 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import { logout } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronDown } from "lucide-react";
 import { fetchUsers } from "@/api/user";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface User {
   firstName: string;
@@ -21,6 +21,7 @@ interface User {
 
 const AccountMenu = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +29,6 @@ const AccountMenu = () => {
     const getUser = async () => {
       try {
         const users = await fetchUsers();
-        console.log("Fetched users:", users);
         if (users && users.length > 0) {
           setUser(users[0]);
         } else {
@@ -43,9 +43,11 @@ const AccountMenu = () => {
 
     getUser();
   }, []);
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -81,22 +83,10 @@ const AccountMenu = () => {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            navigate("/settings");
-          }}
-        >
+        <DropdownMenuItem onClick={() => navigate("/settings")}>
           Settings
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => {
-            logout();
-            alert("Logged out successfully!");
-            navigate("/signout");
-          }}
-        >
-          Logout
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

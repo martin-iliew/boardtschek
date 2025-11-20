@@ -1,17 +1,19 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { getToken } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 interface GuestGuardProps {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const GuestGuard: React.FC<GuestGuardProps> = ({ children }) => {
-  const token = getToken();
-  if (token) {
-    return <Navigate to="/home" replace />;
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
   }
-  return children;
+
+  return <>{children}</>;
 };
 
 export default GuestGuard;

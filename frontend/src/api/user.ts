@@ -1,34 +1,34 @@
 import axios from "axios";
-import apiClient from "@/api/axios";
+import apiClient from "@/api/apiClient";
 import { User } from "@/types/user";
 
 export async function fetchUsers(): Promise<User[]> {
-    try {
-      const response = await apiClient.get("/api/Home/profile");
-      console.log("Response data:", response.data); 
-      if (!Array.isArray(response.data)) {
-        return [response.data]; 
-      }
-      return response.data; 
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || "Failed to fetch users.";
-        throw new Error(errorMessage);
-      } else {
-        throw new Error("Unexpected error occurred while fetching users.");
-      }
+  try {
+    const response = await apiClient.get("/api/Home/profile");
+    console.log("Response data:", response.data);
+    if (!Array.isArray(response.data)) {
+      return [response.data];
     }
-  }
-
-  export async function getUserDetails(): Promise<User> {
-    try {
-      const response = await apiClient.get("/api/Home/profile");
-      console.log("Response data:", response.data);
-      return response.data;
-    } catch (error) {
-      const errorMessage = "Error fetching user details:" + error;
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch users.";
       throw new Error(errorMessage);
-
+    } else {
+      throw new Error("Unexpected error occurred while fetching users.");
     }
   }
+}
+
+export async function getUserDetails(): Promise<User> {
+  try {
+    const response = await apiClient.get("/api/Home/profile");
+    console.log("Response data:", response.data);
+    return response.data;
+  } catch (error) {
+    const errorMessage = "Error fetching user details:" + error;
+    throw new Error(errorMessage);
+  }
+}

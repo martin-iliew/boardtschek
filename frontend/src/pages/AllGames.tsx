@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "@/components/GameCard";
-import apiClient from "@/api/axios";
+import apiClient from "@/api/apiClient";
 
 interface Game {
   id: string;

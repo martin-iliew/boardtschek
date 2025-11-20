@@ -1,25 +1,28 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+// import LoadingScreen from "@/components/LoadingScreen";
 
-interface Props {
-  children: JSX.Element;
+interface AuthGuardProps {
+  children?: React.ReactNode;
   requiredRole?: string;
 }
 
-const AuthGuard: React.FC<Props> = ({ children, requiredRole }) => {
-  const token = localStorage.getItem("token");
-  const isAuthenticated = !!token;
-  const userRole = localStorage.getItem("role");
+const AuthGuard = ({ children, requiredRole }: AuthGuardProps) => {
+  const { isAuthenticated, userRole } = useAuth();
+  // const { isAuthenticated, userRole, isLoading } = useAuth();
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" />;
   }
 
   if (requiredRole && userRole !== requiredRole) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/unauthorized" />;
   }
 
-  return <>{children}</>;
+  return children || <Outlet />;
 };
 
 export default AuthGuard;

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Boardtschek.Data.Migrations
+namespace Boardtschek.Data.Migrations.SqlServer
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate_SqlServer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -258,6 +258,11 @@ namespace Boardtschek.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "ImageUrl", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("30f0662a-29c5-48df-8b57-9c61c671e0fb"), 0, "7f61ebd4-3074-4302-a364-d2320260a045", "admin@boardtschek.com", false, "Admin", "https://cdn.pixabay.com/photo/2016/02/09/08/05/administrator-1188494_960_720.jpg", "Admin", false, null, "ADMIN@BOARDTSCHEK.COM", "ADMIN@BOARDTSCHEK.COM", "AQAAAAEAACcQAAAAEP6HBNREH9Mkpk1HC/mZSdZ4K2+7X5A1FgfPtxgeuBkfuSp+GRhfwkc35x+TDUfOcg==", null, false, "a5d43b6b-18d4-4c6d-96f4-15891acf56cd", false, "admin@boardtschek.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

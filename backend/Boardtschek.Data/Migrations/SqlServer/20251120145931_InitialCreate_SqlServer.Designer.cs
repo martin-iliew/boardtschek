@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Boardtschek.Data.Migrations
+namespace Boardtschek.Data.Migrations.SqlServer
 {
     [DbContext(typeof(BoardtschekDbContext))]
-    [Migration("20241202190232_setupDatabase")]
-    partial class setupDatabase
+    [Migration("20251120145931_InitialCreate_SqlServer")]
+    partial class InitialCreate_SqlServer
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

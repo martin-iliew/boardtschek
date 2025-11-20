@@ -2,10 +2,14 @@ using Boardtschek.Data;
 using Boardtschek.Data.Models;
 using Boardtschek.Services.Data;
 using Boardtschek.Services.Data.Interfaces;
-using Boardtschek.WebAPI.Extensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Boardtschek.WebAPI.Extensions;
+using static Boardtschek.Common.EntityValidations.GeneralApplicationConstants;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+
 
 namespace Boardtschek.WebAPI
 {
@@ -16,8 +20,8 @@ namespace Boardtschek.WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<BoardtschekDbContext>(options =>
@@ -36,6 +40,7 @@ namespace Boardtschek.WebAPI
 
             builder.Services.AddAuthorization();
 
+
             builder.Services.AddIdentityApiEndpoints<AppUser>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -43,8 +48,8 @@ namespace Boardtschek.WebAPI
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })
-            .AddRoles<IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<BoardtschekDbContext>();
+                .AddRoles<IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<BoardtschekDbContext>();
 
             builder.Services.AddScoped<IGameService, GameService>();
             builder.Services.AddScoped<IRatingService, RatingService>();
@@ -55,10 +60,10 @@ namespace Boardtschek.WebAPI
             {
                 options.AddPolicy("AllowFrontend",
                     policy => policy
-                        .WithOrigins("http://localhost:5173")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials());
+                    .WithOrigins("http://localhost:5173") // Replace with your frontend URL
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod()
+                                    .AllowCredentials());
             });
 
             builder.Services.AddSwaggerGen(c =>
@@ -72,8 +77,9 @@ namespace Boardtschek.WebAPI
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter your token in the text input below. Example: `abc123`"
+                    Description = "Enter your token in the text input below.\n\nExample: `abc123`"
                 });
+
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -93,8 +99,6 @@ namespace Boardtschek.WebAPI
 
             var app = builder.Build();
 
-            // Run migrations + seed demo data ONLY when Sqlite is used
-            await app.SeedDemoDataAsync();
 
             if (app.Environment.IsDevelopment())
             {
@@ -111,6 +115,7 @@ namespace Boardtschek.WebAPI
             app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
+            await app.SeedAdministratorAsync(DevelopmentAdminEmail);
 
             app.MapControllers();
 

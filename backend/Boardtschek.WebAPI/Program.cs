@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-
-
 namespace Boardtschek.WebAPI
 {
     public class Program
@@ -28,25 +26,15 @@ namespace Boardtschek.WebAPI
 
             builder.Services.AddDbContext<BoardtschekDbContext>(options =>
             {
+                var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
                 if (builder.Environment.IsDevelopment())
                 {
-                    options.UseSqlServer(
-                        builder.Configuration.GetConnectionString("DefaultConnection"),
-                        sql =>
-                        {
-                            sql.MigrationsAssembly("Boardtschek.Data");
-                            sql.MigrationsHistoryTable("__EFMigrationsHistory", "SqlServer");
-                        });
+                    options.UseSqlServer(connection);
                 }
                 else
                 {
-                    options.UseSqlite(
-                        builder.Configuration.GetConnectionString("DefaultConnection"),
-                        sqlite =>
-                        {
-                            sqlite.MigrationsAssembly("Boardtschek.Data");
-                            sqlite.MigrationsHistoryTable("__EFMigrationsHistory", "Sqlite");
-                        });
+                    options.UseSqlite(connection);
                 }
             });
 
@@ -119,28 +107,6 @@ namespace Boardtschek.WebAPI
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
                 });
-            }
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var db = services.GetRequiredService<BoardtschekDbContext>();
-
-                if (app.Environment.IsDevelopment())
-                {
-                    await db.Database.MigrateAsync();
-                    await app.SeedAdministratorAsync(DevelopmentAdminEmail);
-                }
-
-                if (app.Environment.IsProduction())
-                {
-                    using var scope2 = app.Services.CreateScope();
-                    var dbProd = scope2.ServiceProvider.GetRequiredService<BoardtschekDbContext>();
-
-                    await dbProd.Database.MigrateAsync();
-
-                    await app.SeedDemoDataAsync();
-                }
             }
 
             app.MapIdentityApi<AppUser>();

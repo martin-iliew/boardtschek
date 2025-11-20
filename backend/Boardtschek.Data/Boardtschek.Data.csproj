@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Boardtschek.Data.Models\Boardtschek.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -22,7 +22,6 @@ namespace Boardtschek.WebAPI.Extensions
             await db.Database.MigrateAsync();
 
             // Admin
-            // Admin
             const string adminEmail = "admin@demo.com";
             const string adminPass = "Admin123!";
             const string adminRole = "Administrator";
@@ -45,7 +44,6 @@ namespace Boardtschek.WebAPI.Extensions
                 await users.AddToRoleAsync(admin, adminRole);
             }
 
-            // Skip if already seeded
             // Skip if already seeded
             if (await db.Games.AnyAsync())
                 return;

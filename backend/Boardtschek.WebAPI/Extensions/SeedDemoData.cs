@@ -19,7 +19,6 @@ namespace Boardtschek.WebAPI.Extensions
             if (provider == null || !provider.Contains("Sqlite", StringComparison.OrdinalIgnoreCase))
                 return;
 
-            await db.Database.MigrateAsync();
 
             // Admin
             const string adminEmail = "admin@demo.com";

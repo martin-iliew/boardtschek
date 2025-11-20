@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Boardtschek.Data.Migrations.SqlServer
 {
     [DbContext(typeof(BoardtschekDbContext))]
-    [Migration("20251120145931_InitialCreate_SqlServer")]
+    [Migration("20251120152548_InitialCreate_SqlServer")]
     partial class InitialCreate_SqlServer
     {
         /// <inheritdoc />

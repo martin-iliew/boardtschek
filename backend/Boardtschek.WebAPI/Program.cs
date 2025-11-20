@@ -1,4 +1,4 @@
-﻿using Boardtschek.Data;
+using Boardtschek.Data;
 using Boardtschek.Data.Models;
 using Boardtschek.Services.Data;
 using Boardtschek.Services.Data.Interfaces;
@@ -14,31 +14,23 @@ namespace Boardtschek.WebAPI
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var isEfTool = AppDomain.CurrentDomain.FriendlyName.Contains("ef", StringComparison.OrdinalIgnoreCase);
-            if (isEfTool)
-                builder.Environment.EnvironmentName = "Development";
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<BoardtschekDbContext>(options =>
             {
-                var sqlServerConn = builder.Configuration.GetConnectionString("DefaultConnection");
-                var sqliteConn = builder.Configuration.GetConnectionString("SqliteConnection");
+                var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-                if (isEfTool)
+                if (builder.Environment.IsDevelopment())
                 {
-                    options.UseSqlServer(sqlServerConn, b =>
-                        b.MigrationsAssembly("Boardtschek.Data"));
-                }
-                else if (builder.Environment.IsDevelopment())
-                {
-                    options.UseSqlServer(sqlServerConn);
+                    options.UseSqlServer(connection);
                 }
                 else
                 {
-                    options.UseSqlite(sqliteConn);
+                    options.UseSqlite(connection);
                 }
             });
 
@@ -61,16 +53,18 @@ namespace Boardtschek.WebAPI
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowFrontend", policy => policy
-                    .WithOrigins("http://localhost:5173")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials());
+                options.AddPolicy("AllowFrontend",
+                    policy => policy
+                        .WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
             });
 
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -78,8 +72,9 @@ namespace Boardtschek.WebAPI
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter your token. Example: abc123"
+                    Description = "Enter your token in the text input below. Example: `abc123`"
                 });
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -98,11 +93,7 @@ namespace Boardtschek.WebAPI
 
             var app = builder.Build();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<BoardtschekDbContext>();
-                await db.Database.MigrateAsync();
-            }
+            // Run migrations + seed demo data ONLY when Sqlite is used
             await app.SeedDemoDataAsync();
 
             if (app.Environment.IsDevelopment())

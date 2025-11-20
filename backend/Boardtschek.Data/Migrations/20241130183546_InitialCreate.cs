@@ -5,7 +5,7 @@
 namespace Boardtschek.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityAndGameTables : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

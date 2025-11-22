@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, ReactNode } from "react";
 import { AuthContext, AuthContextType } from "./AuthContext";
 import { setToken, getToken, decodeToken, logoutUser } from "@/lib/utils";
+import { fetchUserProfile } from "@/api/auth/auth";
 import { ROUTES } from "@/routes";
 
 interface AuthProviderProps {
@@ -10,7 +11,7 @@ interface AuthProviderProps {
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [token, setTokenState] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!!getToken());
 
   const setUserRoleFromToken = useCallback(() => {
     const decoded = decodeToken();
@@ -40,21 +41,28 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    const initializeAuth = () => {
-      try {
-        const storedAccessToken = getToken();
-        if (storedAccessToken) {
-          applyToken(storedAccessToken);
+    const initializeAuth = async () => {
+      const storedAccessToken = getToken();
+      console.log("AuthProvider initializing. Stored token:", storedAccessToken); // DEBUG
+      if (storedAccessToken) {
+        try {
+          setToken(storedAccessToken);
+          setTokenState(storedAccessToken);
+          await fetchUserProfile();
+          setUserRoleFromToken();
+          console.log("AuthProvider initialization successful"); // DEBUG
+        } catch (error) {
+          console.error("Token validation failed:", error);
+          logoutOnError();
         }
-      } catch {
-        logoutOnError();
-      } finally {
-        setIsLoading(false);
+      } else {
+        console.log("No stored token found"); // DEBUG
       }
+      setIsLoading(false);
     };
 
     initializeAuth();
-  }, [applyToken]);
+  }, [setUserRoleFromToken]);
 
   const authContextValue: AuthContextType = {
     token,

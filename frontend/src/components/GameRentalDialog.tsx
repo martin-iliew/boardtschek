@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { rentGame, RentalFormData } from "@/actions/rent-game";
+import { rentGame, RentalFormData } from "@/api/rental";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 

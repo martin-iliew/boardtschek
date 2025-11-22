@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { setToken } from "@/lib/utils.ts";
-import { loginUser } from "@/api/auth.ts";
+import { loginUser } from "@/api/auth/auth";
 import { ROUTES } from "@/routes.ts";
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -26,6 +26,8 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+  const { setTokenState } = useAuth();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,14 +36,19 @@ export default function LoginPage() {
     },
   });
 
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     try {
       const token = await loginUser(values);
-      setToken(token);
-      window.location.href = "/home";
+      setTokenState(token);
+      navigate(ROUTES.HOME);
     } catch (error: unknown) {
-      alert(error);
+      console.error(error);
+      alert(typeof error === "string" ? error : "Login failed");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -62,7 +69,7 @@ export default function LoginPage() {
             {/* Form */}
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 w-full max-w-md"
+              className=" w-full max-w-md"
             >
               <FormField
                 control={form.control}
@@ -131,3 +138,4 @@ export default function LoginPage() {
     </>
   );
 }
+

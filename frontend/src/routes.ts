@@ -1,21 +1,17 @@
 export const ROUTES = {
-  ROOT: "/",
+  LOGIN: "/auth/login",
+  REGISTER: "/auth/signup",
+  LOGOUT: "/auth/logout",
 
-  LOGIN: "/auth/log-in",
-  REGISTER: "/auth/create-account",
-  LOGOUT: "/auth/log-out",
-
-  HOME: "/home",
+  HOME: "/",
   SETTINGS: "/settings",
   SETTINGS_RENTS: "/settings/rents",
 
   GAMES: "/games",
-  ADD_GAME: "/add-game",
-  EDIT_GAME: "/edit-game/:id",
+  ADD_GAME: "/games/add",
   GAME_DETAILS: "/game/:id",
+  EDIT_GAME: "/game/:id/edit",
   SEARCH: "/search/:query",
 
-  EDIT_GAME_BUILD: (id: string | number) => `/edit-game/${id}`,
-  GAME_DETAILS_BUILD: (id: string | number) => `/game/${id}`,
-  SEARCH_BUILD: (query: string) => `/search/${encodeURIComponent(query)}`,
+  UNAUTHORIZED: "/unauthorized",
 };

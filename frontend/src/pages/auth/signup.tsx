@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { registerUser } from "@/api/auth.ts";
+import { registerUser } from "@/api/auth/auth";
 import { ROUTES } from "@/routes";
 
 const formSchema = z.object({
@@ -42,7 +42,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function CreateAccountPage() {
+export default function RegisterPage() {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +69,6 @@ export default function CreateAccountPage() {
     <>
       <Form {...form}>
         <div className="flex h-screen">
-          {/* Left Section: Headings and Form */}
           <div className="flex w-full lg:w-1/2 flex-col items-center justify-center bg-subtext p-8">
             {/* Headings */}
             <div className="text-center mb-8">
@@ -201,8 +200,11 @@ export default function CreateAccountPage() {
               </Button>
               <div className="mt-1 text-center text-sm text-neutral-700">
                 Already have an account?{" "}
-                <Link to="/login" className="text-background-text underline">
-                  Sign In
+                <Link
+                  to={ROUTES.LOGIN}
+                  className="text-background-text underline"
+                >
+                  Log In
                 </Link>
               </div>
             </form>

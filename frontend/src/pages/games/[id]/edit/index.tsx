@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
+import { ROUTES } from "@/routes";
 
 enum DifficultyLevel {
   Easy = "Easy",
@@ -30,7 +31,6 @@ const getDifficultyLevelInt = (difficulty: DifficultyLevel): number => {
   return difficultyLevelMap[difficulty];
 };
 
-// Define the Game type
 interface Game {
   id: string;
   title: string;
@@ -43,7 +43,6 @@ interface Game {
   totalQuantity: number;
 }
 
-// Define validation schema using zod
 const gameSchema = z.object({
   title: z.string().min(1, "Game title is required."),
   description: z.string().min(1, "Description is required."),
@@ -137,7 +136,7 @@ export default function EditGamePage() {
 
       if (response.status === 200) {
         alert("Game updated successfully!");
-        navigate("/games");
+        navigate(ROUTES.GAMES);
       } else {
         alert("Failed to update game. Please try again.");
       }
@@ -268,7 +267,7 @@ export default function EditGamePage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => navigate("/games")}
+                onClick={() => navigate(ROUTES.GAMES)}
                 size="lg"
               >
                 Cancel

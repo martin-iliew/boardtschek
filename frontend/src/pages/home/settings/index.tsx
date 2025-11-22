@@ -75,7 +75,7 @@ export default function SettingsPage() {
                         image={
                           game?.imageUrl || "https://via.placeholder.com/150"
                         }
-                        id={String(game?.id || index)} // Ensure id is a string
+                        id={String(game?.id || index)} 
                       />
                     </div>
                   ))

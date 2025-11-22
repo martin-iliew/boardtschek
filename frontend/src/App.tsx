@@ -1,19 +1,18 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import LoginPage from "./pages/auth/login";
 import CreateAccountPage from "./pages/auth/signup";
-import SettingsPage from "./pages/dashboard/settings";
-import AddGamePage from "./pages/games/add-game";
+import SettingsPage from "./pages/home/settings";
+import AddGamePage from "./pages/games/add";
 import SearchResultsPage from "./pages/games/search-results";
 import EditGameByIdPage from "./pages/games/[id]/edit";
 import GameDetails from "./pages/games/[id]";
-import MyRentedGamesPage from "./pages/Settings/Rented";
+import MyRentedGamesPage from "./pages/home";
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
 import { ThemeProvider } from "@/components/theme-provider/ThemeProvider";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import { Toaster } from "./components/ui/sonner";
-import "./App.css";
 import AllGamesPage from "./pages/games";
 import HomePage from "./pages/index";
 
@@ -33,11 +32,6 @@ function App() {
       {!hideLayout && <Navbar />}
 
       <Routes>
-        <Route
-          path={ROUTES.ROOT}
-          element={<Navigate to={ROUTES.LOGIN} replace />}
-        />
-
         <Route
           path={ROUTES.LOGIN}
           element={
@@ -136,6 +130,17 @@ function App() {
             </AuthGuard>
           }
         />
+
+        <Route
+          path={ROUTES.HOME}
+          element={
+            <AuthGuard>
+              <MyRentedGamesPage />
+            </AuthGuard>
+          }
+        />
+
+        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
       </Routes>
 
       {!hideLayout && <Footer />}

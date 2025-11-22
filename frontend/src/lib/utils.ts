@@ -13,6 +13,7 @@ export interface DecodedToken extends JwtPayload {
 let accessTokenMemory: string | null = null;
 
 export const setToken = (token: string | null): void => {
+  console.log("setToken called with:", token); // DEBUG
   accessTokenMemory = token;
   if (token) {
     localStorage.setItem("token", token);

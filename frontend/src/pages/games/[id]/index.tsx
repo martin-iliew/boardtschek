@@ -5,7 +5,7 @@ import { LeaveComment } from "@/components/LeaveComment";
 import CommentsCard from "@/components/CommentsCard";
 import { StarRating } from "@/components/star-rating";
 import GameRentalDialog from "@/components/GameRentalDialog";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 import { useParams } from "react-router-dom";
 import { getUserDetails } from "@/api/user";
 import { Button } from "@/components/ui/button";

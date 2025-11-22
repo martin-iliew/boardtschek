@@ -4,9 +4,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronDown } from "lucide-react";
 import { fetchUsers } from "@/api/user";
@@ -50,39 +50,42 @@ const AccountMenu = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="flex items-center px-6 py-3 bg-transparent hover:bg-background space-x-1">
-          <Avatar className="w-9 h-9">
-            <AvatarImage
-              src={user?.imageUrl || ""}
-              alt={`${user?.firstName} ${user?.lastName}`}
-            />
-            <AvatarFallback>{user?.firstName?.charAt(0) || "?"}</AvatarFallback>
-          </Avatar>
-          <div className="flex h-16 items-center justify-between">
-            <span className="text-background-text font-medium text-lg">
-              {user?.firstName} {user?.lastName}
-            </span>
-            <ChevronDown className="text-background-text w-5 h-5" />
-          </div>
-        </Button>
+      <DropdownMenuTrigger className="flex items-center gap-2 px-4 py-2 bg-transparent hover:bg-background rounded-md border-0 outline-none">
+        <Avatar className="w-9 h-9">
+          <AvatarImage
+            src={user?.imageUrl || ""}
+            alt={user ? `${user.firstName} ${user.lastName}` : "User avatar"}
+          />
+          <AvatarFallback>{user?.firstName?.charAt(0) || "?"}</AvatarFallback>
+        </Avatar>
+        <div className="flex items-center gap-1">
+          <span className="text-background-text font-medium text-sm">
+            {user?.firstName} {user?.lastName}
+          </span>
+          <ChevronDown className="text-background-text w-4 h-4" />
+        </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-60">
-        <div className="flex flex-col items-center gap-2 mt-2">
+
+      <DropdownMenuContent className="w-60" align="start">
+        <DropdownMenuLabel>Account</DropdownMenuLabel>
+
+        <div className="flex flex-col items-center gap-2 px-3 py-3">
           <Avatar className="w-16 h-16">
             <AvatarImage
               src={user?.imageUrl || ""}
-              alt={`${user?.firstName} ${user?.lastName}`}
+              alt={user ? `${user.firstName} ${user.lastName}` : "User avatar"}
             />
             <AvatarFallback>{user?.firstName?.charAt(0) || "?"}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="m-0 font-bold text-subtext">
+            <p className="m-0 font-bold text-subtext text-sm">
               {user?.firstName} {user?.lastName}
             </p>
           </div>
         </div>
+
         <DropdownMenuSeparator />
+
         <DropdownMenuItem onClick={() => navigate("/settings")}>
           Settings
         </DropdownMenuItem>

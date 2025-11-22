@@ -1,6 +1,7 @@
+import { ROUTES } from "@/routes";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-// import LoadingScreen from "@/components/LoadingScreen";
+import { Loader2 } from "lucide-react";
 
 interface AuthGuardProps {
   children?: React.ReactNode;
@@ -8,18 +9,22 @@ interface AuthGuardProps {
 }
 
 const AuthGuard = ({ children, requiredRole }: AuthGuardProps) => {
-  const { isAuthenticated, userRole } = useAuth();
-  // const { isAuthenticated, userRole, isLoading } = useAuth();
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
+  const { isLoading, isAuthenticated, userRole } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to={ROUTES.LOGIN} />;
   }
 
   if (requiredRole && userRole !== requiredRole) {
-    return <Navigate to="/unauthorized" />;
+    return <Navigate to={ROUTES.UNAUTHORIZED} />;
   }
 
   return children || <Outlet />;

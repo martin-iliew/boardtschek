@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "@/components/GameCard";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 
 interface Game {
   id: string;
@@ -11,7 +11,7 @@ interface Game {
   nextAvailable: string;
 }
 
-export default function AllGamesPage() {
+export default function HomePage() {
   const [games, setGames] = useState<Game[] | null>(null);
 
   useEffect(() => {

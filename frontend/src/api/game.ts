@@ -1,5 +1,5 @@
 import axios from "axios";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 
 interface GameForm {
   title: string;

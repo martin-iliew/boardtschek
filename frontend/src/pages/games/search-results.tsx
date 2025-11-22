@@ -1,4 +1,4 @@
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 import { GameCard } from "@/components/GameCard";
 import SearchForm from "@/components/SearchForm";
 import { useEffect, useState } from "react";
@@ -39,7 +39,6 @@ export default function SearchResultsPage() {
 
   return (
     <main id="content" className="min-h-dvh" tabIndex={-1}>
-      {/* Hero Section */}
       <section data-sublocation="Hero" aria-hidden="false">
         <div
           className="inner pb-12"
@@ -66,7 +65,6 @@ export default function SearchResultsPage() {
         </div>
       </section>
 
-      {/* Results Section */}
       <section
         className="section-ranks bg-foreground"
         aria-labelledby="search-results-heading"
@@ -94,7 +92,7 @@ export default function SearchResultsPage() {
               {games.map((game) => (
                 <GameCard
                   key={game.id}
-                  id={game.id} 
+                  id={game.id}
                   title={game.title}
                   image={game.imageUrl}
                   rating={game.rating}

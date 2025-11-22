@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { useState } from "react";
 // import { SatisfactionDialog } from "@/components/return-game/SatisfactionDialog";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 
 interface OverdueRentalCardProps {
   id: string;

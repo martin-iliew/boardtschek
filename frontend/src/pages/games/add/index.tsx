@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import axios from "axios";
 import { difficultyMap } from "@/types/difficultyMappings";
+import { ROUTES } from "@/routes";
 
 // Define validation schema
 const gameSchema = z.object({
@@ -79,7 +80,7 @@ export default function AddGamePage() {
 
       if (message) {
         alert(message || "Game added successfully!");
-        navigate("/games");
+        navigate(ROUTES.HOME);
       } else {
         alert("No response message from the server.");
       }

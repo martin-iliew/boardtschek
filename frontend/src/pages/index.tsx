@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "@/components/GameCard";
-import apiClient from "@/api/apiClient";
+import apiClient from "@/api/auth/apiClient";
 interface Game {
   id: string;
   title: string;
@@ -33,7 +33,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main id="content" className="min-h-dvh" tabIndex={-1}>
+    <main id="content" className="min-h-dvh font-body" tabIndex={-1}>
       <section className="" data-sublocation="Hero" aria-hidden="false">
         <div
           className="inner"

@@ -2,6 +2,7 @@ import { Button } from "../components/ui/button";
 // import { Star } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../components/ui/card";
 import { Link } from "react-router-dom";
+import { ROUTES, ROUTE_BUILDERS } from "@/routes";
 // import { useState, useEffect } from "react";
 // import apiClient from "@/api/axios";
 
@@ -104,12 +105,12 @@ export function GameCard({ id, title, image }: GameCardProps) {
 
       <CardFooter className="p-4 pt-0">
         <div className="flex items-center space-x-3 w-full">
-          <Link to={`/game/${id}`}>
+          <Link to={ROUTE_BUILDERS.gameDetails(id)}>
             <Button variant="default" aria-label="rent" className="text-white">
               Rent game
             </Button>
           </Link>
-          <Link to={`/game/${id}`}>
+          <Link to={ROUTE_BUILDERS.gameDetails(id)}>
             <Button variant="outline" aria-label="learn more">
               Learn more
             </Button>

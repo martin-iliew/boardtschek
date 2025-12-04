@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTES, ROUTE_BUILDERS } from "@/routes";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
@@ -27,7 +28,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate(`/search/${encodeURIComponent(query)}`);
+      navigate(ROUTE_BUILDERS.search(query));
     }
   };
 

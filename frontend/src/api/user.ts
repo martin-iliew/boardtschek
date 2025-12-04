@@ -5,7 +5,6 @@ import { User } from "@/types/user";
 export async function fetchUsers(): Promise<User[]> {
   try {
     const response = await apiClient.get("/api/Home/profile");
-    console.log("Response data:", response.data);
     if (!Array.isArray(response.data)) {
       return [response.data];
     }
@@ -25,7 +24,6 @@ export async function fetchUsers(): Promise<User[]> {
 export async function getUserDetails(): Promise<User> {
   try {
     const response = await apiClient.get("/api/Home/profile");
-    console.log("Response data:", response.data);
     return response.data;
   } catch (error) {
     const errorMessage = "Error fetching user details:" + error;

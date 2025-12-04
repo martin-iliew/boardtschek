@@ -1,26 +1,32 @@
 export interface LikedGame {
-    title: string;
+  title: string;
 }
 
 export interface LikedGames {
-    id: string;
-    title: string;
-    imageUrl: string;
-  }
-  
-  export interface RentedGame {
-    id: string;
-    title: string;
-    imageUrl: string;
-    startDate: string;
-    dueDate: string;
-  }
-  
-  export interface User {
-    firstName: string;
-    lastName: string;
-    imageUrl: string;
-    activeRentedGames: RentedGame[];
-    overdueRentedGames: RentedGame[];
-    likedGames: LikedGames[];
-  }
+  id: string;
+  title: string;
+  imageUrl: string;
+}
+
+export interface RentedGame {
+  id: string;
+  title: string;
+  imageUrl: string;
+  startDate: string;
+  dueDate: string;
+}
+
+export interface User {
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+  activeRentedGames: RentedGame[];
+  overdueRentedGames: RentedGame[];
+  likedGames: LikedGames[];
+}
+
+export const difficultyMap = {
+  Easy: 0,
+  Medium: 1,
+  Hard: 2,
+};

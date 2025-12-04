@@ -13,7 +13,7 @@ interface Game {
   nextAvailable?: string;
 }
 
-export default function SearchResultsPage() {
+export default function SearchResults() {
   const { query } = useParams<{ query: string }>();
   const [games, setGames] = useState<Game[] | null>(null);
   const [loading, setLoading] = useState(true);

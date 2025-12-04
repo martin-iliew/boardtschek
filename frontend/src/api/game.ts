@@ -90,7 +90,7 @@ export async function deleteGame(id: string): Promise<ApiResponse> {
 export async function fetchGamesDetails(): Promise<GameEditForm[]> {
   try {
     const response = await apiClient.get("/api/Game/Details");
-    return response.data;
+    return response.data; 
   } catch (error) {
     console.error("Error fetching games:", error);
     if (axios.isAxiosError(error)) {

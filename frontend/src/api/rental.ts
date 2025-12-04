@@ -23,9 +23,11 @@ export async function rentGame(data: RentalFormData) {
     };
   }
 
+  const { gameId, ...requestBody } = result.data;
+
   const response = await apiClient.post(
-    `/api/Rental/Rent/${data.gameId}`,
-    result.data
+    `/api/Rental/Rent/${gameId}`,
+    requestBody
   );
   return response.data;
 }

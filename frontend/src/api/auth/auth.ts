@@ -10,9 +10,7 @@ interface LoginPayload {
 export async function loginUser(data: LoginPayload): Promise<string> {
   try {
     const response = await apiClient.post("/login", data);
-    console.log("Login response data:", response.data); 
     const { accessToken, refreshToken } = response.data;
-    console.log("Extracted tokens:", { accessToken, refreshToken }); // DEBUG
     setToken(accessToken);
     setRefreshToken(refreshToken);
     return accessToken;
@@ -69,17 +67,6 @@ export async function changePassword(
 }
 
 export async function fetchUserProfile() {
-  try {
-    console.log("Fetching user profile..."); // DEBUG
-    const response = await apiClient.get("/api/Auth/user");
-    console.log("User profile fetched:", response.data); // DEBUG
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching user profile:", error); // DEBUG
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data || "Failed to fetch user profile");
-    } else {
-      throw new Error("Unexpected error occurred");
-    }
-  }
+  const response = await apiClient.get("/api/Auth/user");
+  return response.data;
 }

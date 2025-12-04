@@ -25,7 +25,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function LoginPage() {
+export default function Login() {
   const { setTokenState } = useAuth();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({

@@ -4,13 +4,14 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { LeaveComment } from "@/components/LeaveComment";
 import CommentsCard from "@/components/CommentsCard";
 import { StarRating } from "@/components/star-rating";
-import GameRentalDialog from "@/components/GameRentalDialog";
+import GameRentalDialog from "@/components/return-game/GameRentalDialog";
 import apiClient from "@/api/auth/apiClient";
 import { useParams } from "react-router-dom";
 import { getUserDetails } from "@/api/user";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { AxiosError } from "axios"; // Ensure AxiosError is imported
+import { AxiosError } from "axios";
+import { ROUTE_BUILDERS } from "@/routes";
 
 interface Comment {
   username: string;
@@ -34,7 +35,7 @@ interface NewComment {
   rating?: number;
 }
 
-const GameDetails = () => {
+export default function Game() {
   const { gameId } = useParams<{ gameId: string }>();
   const [gameDetails, setGameDetails] = useState<GameDetails | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -140,7 +141,7 @@ const GameDetails = () => {
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
             <GameRentalDialog />
-            <Link to={`/edit-game/${gameDetails?.id}`}>
+            <Link to={ROUTE_BUILDERS.editGame(gameDetails?.id || "")}>
               <Button variant="outline">Edit Game</Button>
             </Link>
           </div>
@@ -154,6 +155,4 @@ const GameDetails = () => {
       </div>
     </div>
   );
-};
-
-export default GameDetails;
+}

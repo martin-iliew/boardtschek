@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/lib/utils";
 import { ROUTES } from "@/routes";
 
-export default function LogoutPage() {
+export default function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {

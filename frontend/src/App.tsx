@@ -1,23 +1,23 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import LoginPage from "./pages/auth/login";
-import CreateAccountPage from "./pages/auth/signup";
-import SettingsPage from "./pages/home/settings";
-import AddGamePage from "./pages/games/add";
-import SearchResultsPage from "./pages/games/search-results";
-import EditGameByIdPage from "./pages/games/[id]/edit";
-import GameDetails from "./pages/games/[id]";
-import MyRentedGamesPage from "./pages/home";
+import Login from "./pages/auth/login";
+import CreateAccount from "./pages/auth/signup";
+import Settings from "./pages/home/settings/page";
+import AddGame from "./pages/games/add/page";
+import SearchResults from "./pages/games/search-results";
+import EditGameById from "./pages/games/[id]/edit/page";
+import GameDetails from "./pages/games/[id]/page";
+import MyRentedGames from "./pages/home/page";
 import AuthGuard from "./guards/AuthGuard";
 import GuestGuard from "./guards/GuestGuard";
 import { ThemeProvider } from "@/components/theme-provider/ThemeProvider";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import { Toaster } from "./components/ui/sonner";
-import AllGamesPage from "./pages/games";
-import HomePage from "./pages/index";
+import AllGames from "./pages/games/page";
+import Home from "./pages/page";
 
 import { ROUTES } from "@/routes";
-import LogoutPage from "./pages/auth/logout";
+import Logout from "./pages/auth/logout";
 
 function App() {
   const location = useLocation();
@@ -36,7 +36,7 @@ function App() {
           path={ROUTES.LOGIN}
           element={
             <GuestGuard>
-              <LoginPage />
+              <Login />
             </GuestGuard>
           }
         />
@@ -45,7 +45,7 @@ function App() {
           path={ROUTES.REGISTER}
           element={
             <GuestGuard>
-              <CreateAccountPage />
+              <CreateAccount />
             </GuestGuard>
           }
         />
@@ -54,7 +54,7 @@ function App() {
           path={ROUTES.LOGOUT}
           element={
             <GuestGuard>
-              <LogoutPage />
+              <Logout />
             </GuestGuard>
           }
         />
@@ -63,7 +63,7 @@ function App() {
           path={ROUTES.HOME}
           element={
             <AuthGuard>
-              <HomePage />
+              <Home />
             </AuthGuard>
           }
         />
@@ -72,7 +72,7 @@ function App() {
           path={ROUTES.SETTINGS}
           element={
             <AuthGuard>
-              <SettingsPage />
+              <Settings />
             </AuthGuard>
           }
         />
@@ -81,7 +81,7 @@ function App() {
           path={ROUTES.SETTINGS_RENTS}
           element={
             <AuthGuard>
-              <MyRentedGamesPage />
+              <MyRentedGames />
             </AuthGuard>
           }
         />
@@ -90,7 +90,7 @@ function App() {
           path={ROUTES.ADD_GAME}
           element={
             <AuthGuard>
-              <AddGamePage />
+              <AddGame />
             </AuthGuard>
           }
         />
@@ -99,7 +99,7 @@ function App() {
           path={ROUTES.EDIT_GAME}
           element={
             <AuthGuard>
-              <EditGameByIdPage />
+              <EditGameById />
             </AuthGuard>
           }
         />
@@ -117,7 +117,7 @@ function App() {
           path={ROUTES.GAMES}
           element={
             <AuthGuard>
-              <AllGamesPage />
+              <AllGames />
             </AuthGuard>
           }
         />
@@ -126,7 +126,7 @@ function App() {
           path={ROUTES.SEARCH}
           element={
             <AuthGuard>
-              <SearchResultsPage />
+              <SearchResults />
             </AuthGuard>
           }
         />
@@ -135,7 +135,7 @@ function App() {
           path={ROUTES.HOME}
           element={
             <AuthGuard>
-              <MyRentedGamesPage />
+              <MyRentedGames />
             </AuthGuard>
           }
         />

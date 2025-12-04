@@ -13,11 +13,11 @@ export interface DecodedToken extends JwtPayload {
 let accessTokenMemory: string | null = null;
 
 export const setToken = (token: string | null): void => {
-  console.log("setToken called with:", token); // DEBUG
-  accessTokenMemory = token;
   if (token) {
+    accessTokenMemory = token;
     localStorage.setItem("token", token);
   } else {
+    accessTokenMemory = null;
     localStorage.removeItem("token");
   }
 };

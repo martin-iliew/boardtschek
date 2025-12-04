@@ -11,7 +11,7 @@ interface Game {
   nextAvailable: string;
 }
 
-export default function HomePage() {
+export default function Home() {
   const [games, setGames] = useState<Game[] | null>(null);
 
   useEffect(() => {

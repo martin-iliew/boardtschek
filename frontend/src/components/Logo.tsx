@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo.svg";
+import logo from "/public/assets/logo.svg";
+import { ROUTES } from "@/routes";
+import { Dice5 } from "lucide-react";
 
 interface LogoProps {
   size?: "small" | "medium" | "large";
@@ -28,16 +30,16 @@ const Logo: React.FC<LogoProps> = ({
 
   return (
     <div className="flex items-center w-auto space-x-3">
-      <Link to="/">
+      <Link to={ROUTES.HOME}>
         <img src={logo} alt="Logo" className={logoSize} />
       </Link>
       {showText && (
-        <Link to="/">
-          <span
-            className={`font-bold ${textSize} ${textColorClass} text-background-text leading-none transition-opacity duration-600 ease-in-out`}
-          >
-            Boardtschek
-          </span>
+        <Link to={ROUTES.HOME}>
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-bold text-primary">
+              Boardtschek
+            </span>
+          </div>
         </Link>
       )}
     </div>

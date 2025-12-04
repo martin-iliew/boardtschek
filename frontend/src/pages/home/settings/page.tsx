@@ -6,7 +6,7 @@ import { OverdueRentalCard } from "@/components/rentals/overdue";
 import axios from "axios";
 import { GameCard } from "@/components/GameCard";
 
-export default function SettingsPage() {
+export default function Settings() {
   const [user, setUser] = useState<User>({
     firstName: "",
     lastName: "",

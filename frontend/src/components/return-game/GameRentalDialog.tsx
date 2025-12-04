@@ -1,11 +1,11 @@
 import * as React from "react";
 import { addDays, format, isSameDay } from "date-fns";
-// import { CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-// import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -35,9 +35,11 @@ import { toast } from "sonner";
 
 const formSchema = z
   .object({
-    startDate: z.date().min(new Date(), "Start date cannot be in the past."),
+    dateRange: z.object({
+      from: z.date(),
+      to: z.date(),
+    }, { required_error: "Please select a rental period." }),
     startTime: z.string(),
-    endDate: z.date(),
     endTime: z.string(),
     quantity: z
       .string()
@@ -47,15 +49,16 @@ const formSchema = z
       ),
   })
   .superRefine((data, ctx) => {
-    if (data.endDate < data.startDate) {
-      ctx.addIssue({
+    if (data.dateRange.from < new Date(new Date().setHours(0, 0, 0, 0))) {
+       ctx.addIssue({
         code: "custom",
-        path: ["endDate"],
-        message: "End date must be after start date.",
+        path: ["dateRange"],
+        message: "Start date cannot be in the past.",
       });
     }
+
     if (
-      isSameDay(data.startDate, data.endDate) &&
+      isSameDay(data.dateRange.from, data.dateRange.to) &&
       parseInt(data.endTime) <= parseInt(data.startTime)
     ) {
       ctx.addIssue({
@@ -65,36 +68,33 @@ const formSchema = z
       });
     }
   });
+
 type FormData = z.infer<typeof formSchema>;
 
 export default function GameRentalDialog() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [submissionState, setSubmissionState] = React.useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
   const { gameId } = useParams<{ gameId: string }>();
 
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const { control, handleSubmit, watch, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      startDate: new Date(),
+      dateRange: {
+        from: new Date(),
+        to: addDays(new Date(), 1),
+      },
       startTime: "12",
-      endDate: addDays(new Date(), 1),
       endTime: "12",
       quantity: "1",
     },
   });
 
-  const startDate = watch("startDate");
-  const endDate = watch("endDate");
+  const dateRange = watch("dateRange");
   const startTime = watch("startTime");
-  const endTime = watch("endTime");
 
   const onSubmit = async (data: FormData) => {
     if (!gameId) {
-      toast("Error", {
-        description: "Game ID is {missing} or invalid.",
+      toast.error("Error", {
+        description: "Game ID is missing or invalid.",
       });
       return;
     }
@@ -102,10 +102,10 @@ export default function GameRentalDialog() {
     const formattedStartTime = `${data.startTime}:00:00`;
     const formattedEndTime = `${data.endTime}:00:00`;
     const formattedStartDate = `${format(
-      data.startDate,
+      data.dateRange.from,
       "yyyy-MM-dd"
-    )}T00:00:00`;
-    const formattedEndDate = `${format(data.endDate, "yyyy-MM-dd")}T00:00:00`;
+    )}T${data.startTime}:00:00`;
+    const formattedEndDate = `${format(data.dateRange.to, "yyyy-MM-dd")}T${data.endTime}:00:00`;
 
     const formData: RentalFormData = {
       gameId,
@@ -115,39 +115,29 @@ export default function GameRentalDialog() {
       endTime: formattedEndTime,
       quantity: parseInt(data.quantity, 10),
     };
-    console.log(formData);
-    const result = await rentGame(formData);
-    setSubmissionState(result);
-    console.log(result);
-    if (result.success) {
-      toast("Success!", {
-        description: `Your rental for Game ID: ${gameId} has been successfully submitted!`,
-      });
-      setIsOpen(false);
-    } else {
-      toast("Error:", {
-        description: result.message,
+
+    try {
+      const result = await rentGame(formData);
+      if (result.success) {
+        toast.success("Success!", {
+          description: `Your rental for Game ID: ${gameId} has been successfully submitted!`,
+        });
+        setIsOpen(false);
+        reset(); 
+      } else {
+        toast.error("Error:", {
+          description: result.message,
+        });
+      }
+    } catch (error) {
+       toast.error("Error", {
+        description: "An unexpected error occurred.",
       });
     }
   };
 
-  // const handleStartDateSelect = (date: Date | undefined) => {
-  //   if (date) {
-  //     setValue("startDate", date);
-  //     if (!endDate || endDate < date) {
-  //       setValue("endDate", date);
-  //     }
-  //   }
-  // };
-
-  // const handleEndDateSelect = (date: Date | undefined) => {
-  //   if (date && startDate && date >= startDate) {
-  //     setValue("endDate", date);
-  //   }
-  // };
-
   const isEndTimeValid = (hour: string) => {
-    if (isSameDay(startDate, endDate)) {
+    if (dateRange?.from && dateRange?.to && isSameDay(dateRange.from, dateRange.to)) {
       return parseInt(hour) > parseInt(startTime);
     }
     return true;
@@ -156,19 +146,6 @@ export default function GameRentalDialog() {
   const hours = Array.from({ length: 24 }, (_, i) =>
     i.toString().padStart(2, "0")
   );
-
-  const showToast = () => {
-    if (submissionState) {
-      const startDateFormatted = format(startDate, "PPP");
-      const endDateFormatted = format(endDate, "PPP");
-      const startTimeFormatted = `${startTime}:00`;
-      const endTimeFormatted = `${endTime}:00`;
-      const description = `From ${startDateFormatted} at ${startTimeFormatted} to ${endDateFormatted} at ${endTimeFormatted}`;
-      toast(submissionState.success ? "Success!" : "Error", {
-        description: `${submissionState.message} - ${description}`,
-      });
-    }
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -186,49 +163,63 @@ export default function GameRentalDialog() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="start-date" className="text-right">
-                From
+              <Label htmlFor="date-range" className="text-right">
+                Period
               </Label>
               <Controller
-                name="startDate"
+                name="dateRange"
                 control={control}
-                render={({ field }) => (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        id="start-date"
-                        variant={"outline"}
-                        className={cn(
-                          "w-60 justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {/* <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )} */}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      {/* <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => {
-                          field.onChange(date);
-                          handleStartDateSelect(date);
-                        }}
-                        initialFocus
-                      /> */}
-                    </PopoverContent>
-                  </Popover>
+                render={({ field, fieldState }) => (
+                  <div className="col-span-3">
+                    <Popover modal={true}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          id="date-range"
+                          variant={"outline"}
+                          className={cn(
+                            "w-[300px] justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                            fieldState.error && "border-red-500"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value?.from ? (
+                            field.value.to ? (
+                              <>
+                                {format(field.value.from, "LLL dd, y")} -{" "}
+                                {format(field.value.to, "LLL dd, y")}
+                              </>
+                            ) : (
+                              format(field.value.from, "LLL dd, y")
+                            )
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 z-[60]" align="start">
+                        <Calendar
+                          mode="range"
+                          defaultMonth={field.value?.from}
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          numberOfMonths={2}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {fieldState.error && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {fieldState.error.message || fieldState.error.root?.message}
+                      </p>
+                    )}
+                  </div>
                 )}
               />
             </div>
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="start-hour" className="text-right">
-                Time
+                Start Time
               </Label>
               <Controller
                 name="startTime"
@@ -249,50 +240,10 @@ export default function GameRentalDialog() {
                 )}
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="end-date" className="text-right">
-                To
-              </Label>
-              <Controller
-                name="endDate"
-                control={control}
-                render={({ field }) => (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        id="end-date"
-                        variant={"outline"}
-                        className={cn(
-                          "w-60 justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {/* <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )} */}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      {/* <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => {
-                          field.onChange(date);
-                          handleEndDateSelect(date);
-                        }}
-                        disabled={(date) => date < startDate}
-                      /> */}
-                    </PopoverContent>
-                  </Popover>
-                )}
-              />
-            </div>
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="end-hour" className="text-right">
-                Time
+                End Time
               </Label>
               <Controller
                 name="endTime"
@@ -342,7 +293,7 @@ export default function GameRentalDialog() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={showToast}>
+            <Button type="submit">
               Rent Game
             </Button>
           </DialogFooter>

@@ -8,10 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Settings } from "lucide-react";
 import { fetchUsers } from "@/api/user";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { ROUTES } from "@/routes";
 
 interface User {
   firstName: string;
@@ -86,8 +87,9 @@ const AccountMenu = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={() => navigate("/settings")}>
-          Settings
+        <DropdownMenuItem onClick={() => navigate(ROUTES.SETTINGS)}>
+          <Settings className="mr-2 h-4 w-4" />
+          <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>

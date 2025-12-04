@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import apiClient from "@/api/auth/apiClient";
-import { ROUTES } from "@/routes";
+import { ROUTES, PARAMS } from "@/routes";
 
 enum DifficultyLevel {
   Easy = "Easy",
@@ -62,8 +62,8 @@ const gameSchema = z.object({
 
 type GameFormValues = z.infer<typeof gameSchema>;
 
-export default function EditGamePage() {
-  const { id } = useParams<{ id: string }>();
+export default function EditGame() {
+  const { [PARAMS.GAME_ID]: id } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
 
@@ -109,8 +109,6 @@ export default function EditGamePage() {
   }, [id, form]);
 
   const onSubmit = async (data: GameFormValues) => {
-    console.log("Form data being sent to the backend:", data);
-
     if (!id) {
       alert("Game ID is missing.");
       return;
@@ -123,8 +121,6 @@ export default function EditGamePage() {
         id,
         model: "requiredModel",
       };
-
-      console.log("Backend data:", backendData);
 
       const response = await apiClient.post(
         `api/Game/Edit/${id}`,
@@ -272,8 +268,8 @@ export default function EditGamePage() {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="default" size="lg">
-                Save Changes
+              <Button type="submit" size="lg">
+                Update Game
               </Button>
             </div>
           </form>

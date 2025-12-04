@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "@/components/GameCard";
 import apiClient from "@/api/auth/apiClient";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/routes";
 interface Game {
   id: string;
   title: string;
@@ -8,20 +11,18 @@ interface Game {
   rating: number;
 }
 
-interface HomePageGamesOverview {
+interface HomeGamesOverview {
   highestRatedGames: Game[];
   mostBorrowedGames: Game[];
 }
 
-export default function HomePage() {
-  const [games, setGames] = useState<HomePageGamesOverview | null>(null);
+export default function Home() {
+  const [games, setGames] = useState<HomeGamesOverview | null>(null);
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
         const response = await apiClient.get("/api/Home");
-        console.log("Full response:", response);
-        console.log("Fetched games data:", response.data);
 
         setGames(response.data);
       } catch (error) {
@@ -52,12 +53,12 @@ export default function HomePage() {
               of board games, available for all Nemetschek employees.
             </p>
             {/* <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Link to="/rent">
+              <Link to={ROUTES.RENT}>
                 <Button className="mt-4" variant={"default"} size={"lg"}>
                   Start Renting Now
                 </Button>
               </Link>
-              <Link to="/rent">
+              <Link to={ROUTES.RENT}>
                 <Button className="mt-4" variant={"outline"} size={"lg"}>
                   Browse Rentals
                 </Button>

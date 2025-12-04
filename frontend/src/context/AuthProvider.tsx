@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, ReactNode } from "react";
 import { AuthContext, AuthContextType } from "./AuthContext";
+import axios from "axios";
 import { setToken, getToken, decodeToken, logoutUser } from "@/lib/utils";
 import { fetchUserProfile } from "@/api/auth/auth";
 import { ROUTES } from "@/routes";
@@ -43,20 +44,20 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const initializeAuth = async () => {
       const storedAccessToken = getToken();
-      console.log("AuthProvider initializing. Stored token:", storedAccessToken); // DEBUG
       if (storedAccessToken) {
         try {
           setToken(storedAccessToken);
           setTokenState(storedAccessToken);
           await fetchUserProfile();
           setUserRoleFromToken();
-          console.log("AuthProvider initialization successful"); // DEBUG
-        } catch (error) {
+        } catch (error: any) {
           console.error("Token validation failed:", error);
-          logoutOnError();
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+             logoutOnError();
+          }
         }
       } else {
-        console.log("No stored token found"); // DEBUG
+        console.log("No stored token found");
       }
       setIsLoading(false);
     };

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import axios from "axios";
-import { difficultyMap } from "@/types/difficultyMappings";
+import { difficultyMap } from "@/types/user";
 import { ROUTES } from "@/routes";
 
 // Define validation schema
@@ -49,7 +49,7 @@ const customGameSchema = gameSchema.refine(
 
 type GameFormValues = z.infer<typeof customGameSchema>;
 
-export default function AddGamePage() {
+export default function AddGame() {
   const navigate = useNavigate();
   const form = useForm<GameFormValues>({
     resolver: zodResolver(customGameSchema),
@@ -66,16 +66,10 @@ export default function AddGamePage() {
 
   const onSubmit = async (data: GameFormValues) => {
     try {
-      // Map difficulty level to number for the backend
       const backendData = {
         ...data,
         difficultyLevel: difficultyMap[data.difficultyLevel],
       };
-
-      // Log the backend data to the console for debugging
-      console.log("Prepared backend data:", backendData);
-
-      // Send the data to the backend via the addGame API
       const message = await addGame(backendData);
 
       if (message) {
@@ -85,7 +79,7 @@ export default function AddGamePage() {
         alert("No response message from the server.");
       }
     } catch (error: unknown) {
-      handleError(error); // Use a shared error handler
+      handleError(error);
     }
   };
   const handleError = (error: unknown) => {

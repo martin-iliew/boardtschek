@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "/public/assets/logo.svg";
 import { ROUTES } from "@/routes";
+import { HeadingLarge } from "@/components/ui/typography";
 import { Dice5 } from "lucide-react";
 
 interface LogoProps {
@@ -36,9 +37,9 @@ const Logo: React.FC<LogoProps> = ({
       {showText && (
         <Link to={ROUTES.HOME}>
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold text-primary">
+            <HeadingLarge className={`${textSize} ${textColorClass} font-bold border-b-0 p-0`}>
               Boardtschek
-            </span>
+            </HeadingLarge>
           </div>
         </Link>
       )}

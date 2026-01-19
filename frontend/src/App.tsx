@@ -22,7 +22,7 @@ import Logout from "./pages/auth/logout";
 function App() {
   const location = useLocation();
 
-  const hideLayout = [ROUTES.LOGIN, ROUTES.REGISTER].includes(
+  const hideLayout = ([ROUTES.LOGIN, ROUTES.REGISTER] as string[]).includes(
     location.pathname
   );
 
@@ -131,14 +131,7 @@ function App() {
           }
         />
 
-        <Route
-          path={ROUTES.HOME}
-          element={
-            <AuthGuard>
-              <MyRentedGames />
-            </AuthGuard>
-          }
-        />
+
 
         <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
       </Routes>

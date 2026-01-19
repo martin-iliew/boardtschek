@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/star-rating";
+import { HeadingSmall, LabelSmall, LabelMedium } from "@/components/ui/typography";
 
 interface LeaveCommentProps {
   onSubmit: (comment: { text: string; rating?: number }) => void;
@@ -23,7 +24,7 @@ export const LeaveComment = ({ onSubmit }: LeaveCommentProps) => {
 
   return (
     <div className="mt-6 space-y-4">
-      <h3 className="text-lg font-bold">Leave a Comment</h3>
+      <HeadingSmall className="text-lg font-bold">Leave a Comment</HeadingSmall>
       <Textarea
         placeholder="Write your comment here..."
         value={text}
@@ -31,11 +32,11 @@ export const LeaveComment = ({ onSubmit }: LeaveCommentProps) => {
         className="w-full max-h-[110px]"
       />
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-semibold">Rating (optional):</span>
+        <LabelSmall className="text-sm font-semibold">Rating (optional):</LabelSmall>
         <StarRating rating={rating || 0} onChange={setRating} size="md" />
       </div>
       <Button onClick={handleSubmit} variant={"outline"}>
-        Submit Comment
+        <LabelMedium>Submit Comment</LabelMedium>
       </Button>
     </div>
   );

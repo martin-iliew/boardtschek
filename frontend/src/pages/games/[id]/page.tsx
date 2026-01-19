@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
 import { ROUTE_BUILDERS } from "@/routes";
+import { DisplayLarge, HeadingMedium, BodyMedium, LabelMedium } from "@/components/ui/typography";
 
 interface Comment {
   username: string;
@@ -64,23 +65,22 @@ export default function Game() {
   }, [gameId]);
 
   const handleAddComment = async (newComment: NewComment) => {
-    const loggedUser = await getUserDetails();
-
+    if (!gameId) return;
     try {
-      const newCommentWithDetails = {
-        username: `${loggedUser.firstName} ${loggedUser.lastName}`,
-        time: "Just now",
+      await apiClient.post(`/api/Game/${gameId}/rate`, {
         comment: newComment.text,
-        score: newComment.rating || 0,
+        score: newComment.rating,
+      });
+      
+      const loggedUser = await getUserDetails();
+      
+      const newCommentWithDetails: Comment = {
+          username: loggedUser?.firstName || "You",
+          time: new Date().toLocaleDateString(),
+          comment: newComment.text,
+          score: newComment.rating || 0,
       };
 
-      await apiClient.post(`/api/Game/Rate/${gameId}`, {
-        score: newComment.rating,
-        comment: newComment.text,
-      });
-
-      const response = await apiClient.get(`/api/Game/Details/${gameId}`);
-      setGameDetails(response.data);
       setComments((prevComments) => [newCommentWithDetails, ...prevComments]);
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
@@ -103,54 +103,63 @@ export default function Game() {
   }
 
   return (
-    <div className="inner mx-auto flex mt-4 mb-6 md:flex-col">
-      <div className="container mx-auto flex mt-4 mb-6 flex-col md:flex-row gap-7">
+    <div className="inner mx-auto flex flex-col mt-4 mb-6">
+      <div className="container mx-auto flex flex-col md:flex-row gap-7">
         <Card className="flex-1 md:w-1/3">
-          <CardContent>
-            <AspectRatio
-              ratio={16 / 9}
-              className="bg-gray-200 rounded-lg h-full"
-            >
+          <CardContent className="p-4">
+            <AspectRatio ratio={16 / 9} className="bg-muted">
               <img
-                src={gameDetails?.imageUrl || ""}
-                alt={gameDetails?.title || "Game"}
-                className="object-cover w-full h-full"
+                src={gameDetails?.imageUrl}
+                alt={gameDetails?.title}
+                className="h-full w-full object-cover rounded-md"
               />
             </AspectRatio>
           </CardContent>
         </Card>
 
-        <div className="flex-1 space-y-4">
-          <div>
-            <h1 className="text-2xl font-bold">{gameDetails?.title}</h1>
-            <p className="text-sm font-semibold text-gray-500">
-              Difficulty: {gameDetails?.difficulty}
-            </p>
-            <div className="flex items-center space-x-1 mt-2">
-              <span className="text-sm font-semibold">Average rating:</span>
-              <StarRating
+        <div className="flex-1 flex flex-col gap-4">
+          <DisplayLarge>{gameDetails?.title}</DisplayLarge>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+            <BodyMedium>Difficulty: </BodyMedium> 
+            <BodyMedium>{gameDetails?.difficulty}</BodyMedium>
+            </div>
+            <div className="flex items-center gap-2">
+            <BodyMedium className="text-muted-foreground">
+              Average rating: 
+            </BodyMedium>
+             <StarRating
                 rating={gameDetails?.averageRating || 0}
                 readonly
                 size="md"
               />
             </div>
           </div>
+          
           <div>
-            <h2 className="font-bold">Description:</h2>
-            {gameDetails?.description}
+            <HeadingMedium className="text-lg font-semibold mb-2">Description:</HeadingMedium>
+            <BodyMedium>{gameDetails?.description}</BodyMedium>
           </div>
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <GameRentalDialog />
-            <Link to={ROUTE_BUILDERS.editGame(gameDetails?.id || "")}>
-              <Button variant="outline">Edit Game</Button>
-            </Link>
+
+          <div className="flex gap-2 mt-4">
+            <Button asChild variant="outline">
+              <Link to={ROUTE_BUILDERS.editGame(gameId!)}>
+                <LabelMedium>Edit Game</LabelMedium>
+              </Link>
+            </Button>
+            <GameRentalDialog
+              gameName={gameDetails?.title || ""}
+              gameId={gameId!}
+            />
           </div>
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="container mx-auto mt-8">
         <LeaveComment onSubmit={handleAddComment} />
-        <h2 className="text-xl font-bold mb-4">Comments</h2>
+        <HeadingMedium className="text-xl font-bold mb-4 border-b-0 p-0 mt-8">
+          Comments
+        </HeadingMedium>
         <CommentsCard comments={comments} />
       </div>
     </div>

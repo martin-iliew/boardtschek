@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { HeadingMedium, BodySmall, LabelMedium } from "@/components/ui/typography";
 
 interface RentalHistoryCardProps {
   id: number;
@@ -28,15 +29,15 @@ export function RentalHistoryCard({
         />
       </div>
       <CardContent className="p-4">
-        <h3 className="text-xl font-semibold">{name}</h3>
+        <HeadingMedium className="text-xl font-semibold">{name}</HeadingMedium>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex flex-col gap-4">
         <div className="text-sm text-muted-foreground space-y-1">
-          <p>Rented: {new Date(rentalDate).toLocaleDateString()}</p>
-          <p>Returned: {new Date(returnDate).toLocaleDateString()}</p>
+          <BodySmall>Rented: {new Date(rentalDate).toLocaleDateString()}</BodySmall>
+          <BodySmall>Returned: {new Date(returnDate).toLocaleDateString()}</BodySmall>
         </div>
         <Button className="w-full" variant="outline">
-          Rent Again
+          <LabelMedium>Rent Again</LabelMedium>
         </Button>
       </CardFooter>
     </Card>

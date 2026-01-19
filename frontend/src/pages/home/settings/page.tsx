@@ -5,6 +5,7 @@ import { ActiveRentalCard } from "@/components/rentals/active";
 import { OverdueRentalCard } from "@/components/rentals/overdue";
 import axios from "axios";
 import { GameCard } from "@/components/GameCard";
+import { DisplayLarge, HeadingMedium, BodyMedium } from "@/components/ui/typography";
 
 export default function Settings() {
   const [user, setUser] = useState<User>({
@@ -44,13 +45,13 @@ export default function Settings() {
             marginBottom: "calc(100 / 2000 * 100vw)",
           }}
         >
-          <h1 className="mb-5 text-5xl text-background-text font-semibold">
+          <DisplayLarge className="mb-5 text-5xl text-background-text font-semibold">
             Hey {user.firstName} 👋
-          </h1>
+          </DisplayLarge>
           <div className="">
-            <p className="mb-10 text-2xl text-background-subtext">
+            <BodyMedium className="mb-10 text-2xl text-background-subtext">
               Welcome back! Here's what's new while you were away.
-            </p>
+            </BodyMedium>
           </div>
         </div>
       </section>
@@ -62,7 +63,7 @@ export default function Settings() {
 
             {/* Liked Games */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Liked Games</h2>
+              <HeadingMedium className="text-lg font-semibold mb-4">Liked Games</HeadingMedium>
               <div className="flex flex-wrap gap-6">
                 {user.likedGames && user.likedGames.length > 0 ? (
                   user.likedGames.map((game, index) => (
@@ -80,14 +81,14 @@ export default function Settings() {
                     </div>
                   ))
                 ) : (
-                  <p>No liked games yet</p>
+                  <BodyMedium>No liked games yet</BodyMedium>
                 )}
               </div>
             </div>
 
             {/* Active Rentals */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Active Rentals</h2>
+              <HeadingMedium className="text-lg font-semibold mb-4">Active Rentals</HeadingMedium>
               <div className="flex flex-wrap gap-6">
                 {user.activeRentedGames && user.activeRentedGames.length > 0 ? (
                   user.activeRentedGames.map((rental, index) => (
@@ -102,14 +103,14 @@ export default function Settings() {
                     </div>
                   ))
                 ) : (
-                  <p>No active rentals yet.</p>
+                  <BodyMedium>No active rentals yet.</BodyMedium>
                 )}
               </div>
             </div>
 
             {/* Overdue Rentals */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Overdue Rentals</h2>
+              <HeadingMedium className="text-lg font-semibold mb-4">Overdue Rentals</HeadingMedium>
               <div className="flex flex-wrap gap-6">
                 {user.overdueRentedGames &&
                 user.overdueRentedGames.length > 0 ? (
@@ -125,7 +126,7 @@ export default function Settings() {
                     </div>
                   ))
                 ) : (
-                  <p>No overdue rentals.</p>
+                  <BodyMedium>No overdue rentals.</BodyMedium>
                 )}
               </div>
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "@/components/Logo";
+import { CaptionSmall, LabelSmall } from "@/components/ui/typography";
 const Footer: React.FC = () => {
   return (
     <footer className="bg-foreground text-foreground-text">
@@ -11,27 +12,27 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center pt-4 border-t border-foreground-subtext">
-          <p className="text-sm text-foreground-subtext">
+          <CaptionSmall className="text-sm text-foreground-subtext">
             © {new Date().getFullYear()} Boardtschek. All rights reserved.
-          </p>
+          </CaptionSmall>
           <div className="flex gap-6">
             <Link
               to="/"
               className="text-sm text-foreground-subtext hover:text-foreground-text transition-colors"
             >
-              Terms
+              <LabelSmall>Terms</LabelSmall>
             </Link>
             <Link
               to="/"
               className="text-sm text-foreground-subtext hover:text-foreground-text transition-colors"
             >
-              Privacy
+              <LabelSmall>Privacy</LabelSmall>
             </Link>
             <Link
               to="#"
               className="text-sm text-foreground-subtext hover:text-foreground-text transition-colors"
             >
-              Cookies
+              <LabelSmall>Cookies</LabelSmall>
             </Link>
           </div>
         </div>

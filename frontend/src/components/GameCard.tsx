@@ -2,7 +2,8 @@ import { Button } from "../components/ui/button";
 // import { Star } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../components/ui/card";
 import { Link } from "react-router-dom";
-import { ROUTES, ROUTE_BUILDERS } from "@/routes";
+import { ROUTE_BUILDERS } from "@/routes";
+import { HeadingLarge, LabelMedium } from "@/components/ui/typography";
 // import { useState, useEffect } from "react";
 // import apiClient from "@/api/axios";
 
@@ -70,7 +71,9 @@ export function GameCard({ id, title, image }: GameCardProps) {
       </div>
       <CardContent className="grow p-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold text-subtext">{title}</h3>
+          <HeadingLarge className="text-lg font-semibold text-subtext border-b-0 p-0">
+            {title}
+          </HeadingLarge>
 
           {/* Commented out Like Button */}
           {/* <Button
@@ -107,12 +110,12 @@ export function GameCard({ id, title, image }: GameCardProps) {
         <div className="flex items-center space-x-3 w-full">
           <Link to={ROUTE_BUILDERS.gameDetails(id)}>
             <Button variant="default" aria-label="rent" className="text-white">
-              Rent game
+              <LabelMedium>Rent game</LabelMedium>
             </Button>
           </Link>
           <Link to={ROUTE_BUILDERS.gameDetails(id)}>
             <Button variant="outline" aria-label="learn more">
-              Learn more
+              <LabelMedium>Learn more</LabelMedium>
             </Button>
           </Link>
         </div>

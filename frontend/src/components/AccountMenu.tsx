@@ -13,6 +13,7 @@ import { fetchUsers } from "@/api/user";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { ROUTES } from "@/routes";
+import { LabelSmall, LabelMedium } from "@/components/ui/typography";
 
 interface User {
   firstName: string;
@@ -60,15 +61,17 @@ const AccountMenu = () => {
           <AvatarFallback>{user?.firstName?.charAt(0) || "?"}</AvatarFallback>
         </Avatar>
         <div className="flex items-center gap-1">
-          <span className="text-background-text font-medium text-sm">
+          <LabelSmall className="text-background-text font-medium text-sm">
             {user?.firstName} {user?.lastName}
-          </span>
+          </LabelSmall>
           <ChevronDown className="text-background-text w-4 h-4" />
         </div>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-60" align="start">
-        <DropdownMenuLabel>Account</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <LabelMedium>Account</LabelMedium>
+        </DropdownMenuLabel>
 
         <div className="flex flex-col items-center gap-2 px-3 py-3">
           <Avatar className="w-16 h-16">
@@ -79,9 +82,9 @@ const AccountMenu = () => {
             <AvatarFallback>{user?.firstName?.charAt(0) || "?"}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="m-0 font-bold text-subtext text-sm">
+            <LabelSmall className="m-0 font-bold text-subtext text-sm">
               {user?.firstName} {user?.lastName}
-            </p>
+            </LabelSmall>
           </div>
         </div>
 
@@ -89,9 +92,11 @@ const AccountMenu = () => {
 
         <DropdownMenuItem onClick={() => navigate(ROUTES.SETTINGS)}>
           <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+          <LabelMedium>Settings</LabelMedium>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
+          <LabelMedium>Logout</LabelMedium>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

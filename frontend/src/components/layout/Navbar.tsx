@@ -5,6 +5,7 @@ import { ModeToggle } from "@/components/theme-provider/ModeToggle";
 import SearchForm from "@/components/SearchForm";
 import "@/App.css";
 import { ROUTES } from "@/routes";
+import { LabelMedium } from "@/components/ui/typography";
 
 export default function Navbar() {
   return (
@@ -26,7 +27,7 @@ export default function Navbar() {
                   to={ROUTES.GAMES}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
-                  All Games
+                  <LabelMedium>All Games</LabelMedium>
                 </Link>
               </li>
               <li>
@@ -34,7 +35,7 @@ export default function Navbar() {
                   to={ROUTES.SETTINGS}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
-                  My Rented Games
+                  <LabelMedium>My Rented Games</LabelMedium>
                 </Link>
               </li>
               <li>
@@ -42,7 +43,7 @@ export default function Navbar() {
                   to={ROUTES.ADD_GAME}
                   className="text-background-subtext hover:text-background-text transition-colors"
                 >
-                  Add Game
+                  <LabelMedium>Add Game</LabelMedium>
                 </Link>
               </li>
             </ul>

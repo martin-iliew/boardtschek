@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { HeadingMedium, BodySmall, LabelSmall, LabelMedium } from "@/components/ui/typography";
 import { AlertCircle } from "lucide-react";
 import { useState } from "react";
 // import { SatisfactionDialog } from "@/components/return-game/SatisfactionDialog";
@@ -59,9 +60,9 @@ export function OverdueRentalCard({
     <Card key={id} className="overflow-hidden">
       <div className="relative">
         <Badge className="absolute left-2 top-2 z-10 bg-destructive hover:bg-destructive">
-          <span className="flex items-center gap-1">
+          <LabelSmall className="flex items-center gap-1">
             Overdue <AlertCircle className="h-4 w-4" />
-          </span>
+          </LabelSmall>
         </Badge>
         <img
           src={image}
@@ -72,12 +73,12 @@ export function OverdueRentalCard({
         />
       </div>
       <CardContent className="p-4">
-        <h3 className="text-xl font-semibold">{name}</h3>
+        <HeadingMedium className="text-xl font-semibold">{name}</HeadingMedium>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex flex-col gap-4">
         <div className="text-sm text-muted-foreground text">
-          <p>Rented: {new Date(rentalDate).toLocaleDateString()}</p>
-          <p>Due: {new Date(dueDate).toLocaleDateString()}</p>
+          <BodySmall>Rented: {new Date(rentalDate).toLocaleDateString()}</BodySmall>
+          <BodySmall>Due: {new Date(dueDate).toLocaleDateString()}</BodySmall>
         </div>
 
         {!isGameReturned ? (
@@ -87,16 +88,16 @@ export function OverdueRentalCard({
             onClick={handleReturnGame}
             disabled={isReturning}
           >
-            {isReturning ? "Returning..." : "Return Game"}
+            <LabelMedium>{isReturning ? "Returning..." : "Return Game"}</LabelMedium>
           </Button>
         ) : (
           <>
-            <p className="text-green-600 font-medium">
+            <BodySmall className="text-green-600 font-medium">
               You have successfully returned the game {name}.
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
+            </BodySmall>
+            <BodySmall className="text-sm text-muted-foreground mt-2">
               Would you like to leave a comment or rating?
-            </p>
+            </BodySmall>
             {/* <Button
               variant="outline"
               className="w-full mt-2"

@@ -3,6 +3,7 @@ import { ActiveRentalCard } from "@/components/rentals/active";
 // import { OverdueRentalCard } from "@/components/rental-cards/overdue";
 // import { RentalHistoryCard } from "@/components/rental-cards/history";
 import { Button } from "@/components/ui/button";
+import { DisplayLarge, HeadingMedium, BodyMedium } from "@/components/ui/typography";
 import { fetchUsers } from "@/api/user";
 import { User } from "@/types/user";
 import axios from "axios";
@@ -66,16 +67,16 @@ export default function GameDashboard() {
   return (
     <div className="container mx-auto p-6 space-y-8">
       <header>
-        <h1 className="text-4xl font-bold tracking-tight">
+        <DisplayLarge className="text-4xl font-bold tracking-tight">
           Hey {user.firstName}, Welcome back! Here's what's new while you were
           away.
-        </h1>
+        </DisplayLarge>
       </header>
 
       <section className="space-y-4">
-        <h2 className="text-2xl font-semibold tracking-tight">
+        <HeadingMedium className="text-2xl font-semibold tracking-tight border-b-0 p-0">
           Active Rentals
-        </h2>
+        </HeadingMedium>
         {user.activeRentedGames?.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {user.activeRentedGames
@@ -100,7 +101,7 @@ export default function GameDashboard() {
               ))}
           </div>
         ) : (
-          <p className="text-gray-500">No active rentals yet.</p>
+          <BodyMedium className="text-gray-500">No active rentals yet.</BodyMedium>
         )}
         <div className="flex justify-center mt-4 space-x-4">
           {activeRentalsToShow < user.activeRentedGames?.length && (

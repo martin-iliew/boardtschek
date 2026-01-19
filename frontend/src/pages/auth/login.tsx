@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { loginUser } from "@/api/auth/auth";
 import { ROUTES } from "@/routes.ts";
 import { useAuth } from "@/hooks/useAuth";
+import { HeadingLarge, BodyMedium, LabelSmall, LabelMedium } from "@/components/ui/typography";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -60,10 +61,10 @@ export default function Login() {
           <div className="flex w-full lg:w-1/2 flex-col items-center justify-center bg-subtext p-8">
             {/* Headings */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold">Welcome Back</h1>
-              <p className="text-lg text-subtext mt-4">
+              <HeadingLarge className="text-3xl font-bold">Welcome Back</HeadingLarge>
+              <BodyMedium className="text-lg text-subtext mt-4">
                 Enter Your Credentials to Continue
-              </p>
+              </BodyMedium>
             </div>
 
             {/* Form */}
@@ -76,7 +77,9 @@ export default function Login() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>
+                      <LabelSmall>Email</LabelSmall>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="example@nemetschek.bg" {...field} />
                     </FormControl>
@@ -94,7 +97,9 @@ export default function Login() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>
+                      <LabelSmall>Password</LabelSmall>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -116,16 +121,18 @@ export default function Login() {
                 className="w-full"
                 disabled={loading || !form.formState.isValid} // Disable button while loading
               >
-                {loading ? "Logging in..." : "Start Exploring"}{" "}
+                <LabelMedium>
+                  {loading ? "Logging in..." : "Start Exploring"}{" "}
+                </LabelMedium>
                 {/* Display loading text */}
               </Button>
               <div className="mt-2 text-center text-sm text-neutral-700">
-                Don't have an account?{" "}
+                <LabelSmall>Don't have an account? </LabelSmall>
                 <Link
                   to={ROUTES.REGISTER}
                   className="underline text-background-text"
                 >
-                  Sign up
+                  <LabelSmall>Sign up</LabelSmall>
                 </Link>
               </div>
             </form>

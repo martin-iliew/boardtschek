@@ -1,6 +1,7 @@
 import * as React from "react";
 import { addDays, format, isSameDay } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { LabelMedium, BodyMedium, HeadingLarge } from "@/components/ui/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
@@ -71,9 +72,16 @@ const formSchema = z
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function GameRentalDialog() {
+interface GameRentalDialogProps {
+  gameName?: string;
+
+  gameId?: string;
+}
+
+export default function GameRentalDialog({ gameName, gameId: propGameId }: GameRentalDialogProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { gameId } = useParams<{ gameId: string }>();
+  const { gameId: paramGameId } = useParams<{ gameId: string }>();
+  const gameId = propGameId || paramGameId;
 
   const { control, handleSubmit, watch, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -150,28 +158,34 @@ export default function GameRentalDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Rent a Game</Button>
+        <Button>
+          <LabelMedium>Rent a Game</LabelMedium>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Rent a Game</DialogTitle>
-          <DialogDescription>
-            Choose your rental dates, times, and quantity. Same-day rentals are
-            allowed.
+          <DialogTitle asChild>
+            <HeadingLarge>Rent {gameName || "a Game"}</HeadingLarge>
+          </DialogTitle>
+          <DialogDescription asChild>
+            <BodyMedium>
+              Choose your rental dates, times, and quantity. Same-day rentals are
+              allowed.
+            </BodyMedium>
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="date-range" className="text-right">
-                Period
+                <LabelMedium>Period</LabelMedium>
               </Label>
               <Controller
                 name="dateRange"
                 control={control}
                 render={({ field, fieldState }) => (
                   <div className="col-span-3">
-                    <Popover modal={true}>
+                    <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           id="date-range"
@@ -208,9 +222,9 @@ export default function GameRentalDialog() {
                       </PopoverContent>
                     </Popover>
                     {fieldState.error && (
-                      <p className="text-sm text-red-500 mt-1">
+                      <LabelMedium className="text-red-500 mt-1">
                         {fieldState.error.message || fieldState.error.root?.message}
-                      </p>
+                      </LabelMedium>
                     )}
                   </div>
                 )}
@@ -219,7 +233,7 @@ export default function GameRentalDialog() {
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="start-hour" className="text-right">
-                Start Time
+                <LabelMedium>Start Time</LabelMedium>
               </Label>
               <Controller
                 name="startTime"
@@ -243,7 +257,7 @@ export default function GameRentalDialog() {
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="end-hour" className="text-right">
-                End Time
+                <LabelMedium>End Time</LabelMedium>
               </Label>
               <Controller
                 name="endTime"
@@ -270,7 +284,7 @@ export default function GameRentalDialog() {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="quantity" className="text-right">
-                Quantity
+                <LabelMedium>Quantity</LabelMedium>
               </Label>
               <Controller
                 name="quantity"
@@ -294,7 +308,7 @@ export default function GameRentalDialog() {
           </div>
           <DialogFooter>
             <Button type="submit">
-              Rent Game
+              <LabelMedium>Rent Game</LabelMedium>
             </Button>
           </DialogFooter>
         </form>

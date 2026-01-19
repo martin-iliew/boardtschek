@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "@/components/GameCard";
 import apiClient from "@/api/auth/apiClient";
+import { DisplayLarge, BodyMedium } from "@/components/ui/typography";
 
 interface Game {
   id: string;
@@ -37,18 +38,18 @@ export default function Home() {
             marginBottom: "calc(100 / 2000 * 100vw)",
           }}
         >
-          <h1 className="mb-5 text-5xl text-background-text font-semibold uppercase text-center">
+          <DisplayLarge className="mb-5 text-5xl text-background-text font-semibold uppercase text-center">
             Explore top board games
             <br />
             for your downtime
-          </h1>
+          </DisplayLarge>
 
           <div className="justify-center">
-            <p className="mb-10 text-lg text-background-subtext text-center ">
+            <BodyMedium className="mb-10 text-lg text-background-subtext text-center ">
               Discover a world of fun and strategy with our exclusive collection{" "}
               <br />
               of board games, available for all Nemetschek employees.
-            </p>
+            </BodyMedium>
           </div>
         </div>
       </section>

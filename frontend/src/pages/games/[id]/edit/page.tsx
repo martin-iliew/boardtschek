@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import apiClient from "@/api/auth/apiClient";
 import { ROUTES, PARAMS } from "@/routes";
+import { HeadingMedium, BodyMedium, LabelMedium } from "@/components/ui/typography";
 
 enum DifficultyLevel {
   Easy = "Easy",
@@ -143,13 +144,13 @@ export default function EditGame() {
     }
   };
 
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) return <BodyMedium className="text-red-500">{error}</BodyMedium>;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-subtext pt-8 pb-8">
       <Form {...form}>
         <div className="w-full max-w-md">
-          <h1 className="text-2xl font-bold text-center">Edit Game</h1>
+          <HeadingMedium className="text-2xl font-bold text-center">Edit Game</HeadingMedium>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full"
@@ -266,10 +267,10 @@ export default function EditGame() {
                 onClick={() => navigate(ROUTES.GAMES)}
                 size="lg"
               >
-                Cancel
+                <LabelMedium>Cancel</LabelMedium>
               </Button>
               <Button type="submit" size="lg">
-                Update Game
+                <LabelMedium>Update Game</LabelMedium>
               </Button>
             </div>
           </form>

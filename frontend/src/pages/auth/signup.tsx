@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { registerUser } from "@/api/auth/auth";
 import { ROUTES } from "@/routes";
+import { HeadingLarge, BodyMedium, LabelSmall, LabelMedium } from "@/components/ui/typography";
 
 const formSchema = z.object({
   firstName: z
@@ -72,8 +73,8 @@ export default function Register() {
           <div className="flex w-full lg:w-1/2 flex-col items-center justify-center bg-subtext p-8">
             {/* Headings */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold">Create Account</h1>
-              <p className="text-lg text-subtext mt-4">Ready to Play?</p>
+              <HeadingLarge className="text-3xl font-bold">Create Account</HeadingLarge>
+              <BodyMedium className="text-lg text-subtext mt-4">Ready to Play?</BodyMedium>
             </div>
 
             {/* Form */}
@@ -196,15 +197,15 @@ export default function Register() {
                 )}
               />
               <Button type="submit" className="w-full">
-                Get Started
+                <LabelMedium>Get Started</LabelMedium>
               </Button>
               <div className="mt-1 text-center text-sm text-neutral-700">
-                Already have an account?{" "}
+                <LabelSmall>Already have an account? </LabelSmall>
                 <Link
                   to={ROUTES.LOGIN}
                   className="text-background-text underline"
                 >
-                  Log In
+                  <LabelSmall>Log In</LabelSmall>
                 </Link>
               </div>
             </form>

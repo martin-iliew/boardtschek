@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { ActiveRentalCard } from "@/components/rentals/active";
-// import { OverdueRentalCard } from "@/components/rental-cards/overdue";
-// import { RentalHistoryCard } from "@/components/rental-cards/history";
 import { fetchUsers } from "@/api/user";
 import { User } from "@/types/user";
 import axios from "axios";
+import { DisplayLarge, HeadingMedium, BodyMedium } from "@/components/ui/typography";
 
 export default function GameDashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -35,15 +34,15 @@ export default function GameDashboard() {
   return (
     <div className="container mx-auto p-6 space-y-8">
       <header>
-        <h1 className="text-4xl font-bold tracking-tight">
+        <DisplayLarge>
           Hey {user.firstName}, Welcome back! Here's what's new while you were
           away.
-        </h1>
+        </DisplayLarge>
       </header>
 
       <section className="space-y-4 ">
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-4">Active Rentals</h2>
+          <HeadingMedium className="text-lg font-semibold mb-4">Active Rentals</HeadingMedium>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {user.activeRentedGames && user.activeRentedGames.length > 0 ? (
               user.activeRentedGames.map((rental, index) => (
@@ -57,52 +56,34 @@ export default function GameDashboard() {
                 />
               ))
             ) : (
-              <p className="text-muted-foreground">No active rentals yet.</p>
+              <BodyMedium className="text-muted-foreground">No active rentals yet.</BodyMedium>
             )}
           </div>
         </div>
       </section>
-      <section className="space-y-4">
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-4">Overdue Rentals</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {user.activeRentedGames && user.activeRentedGames.length > 0 ? (
-              user.activeRentedGames.map((rental, index) => (
-                <ActiveRentalCard
-                  key={index}
-                  id={rental.id}
-                  name={rental.title || "Unknown Game"}
-                  image={rental.imageUrl || "/placeholder-image.png"}
-                  rentalDate={rental.startDate || new Date().toISOString()}
-                  dueDate={rental.dueDate || new Date().toISOString()}
-                />
-              ))
-            ) : (
-              <p className="text-muted-foreground">No active rentals yet.</p>
-            )}
-          </div>
-        </div>
-      </section>
+
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-4">Overdue Rentals</h2>
+        <HeadingMedium className="text-lg font-semibold mb-4">Overdue Rentals</HeadingMedium>
         <ul className="list-disc pl-6">
           {user.overdueRentedGames && user.overdueRentedGames.length > 0 ? (
             user.overdueRentedGames.map((rental, index) => (
-              <h3 key={index}>
-                {rental.title || "Unknown Game"} - Due on{" "}
-                {rental.dueDate
-                  ? new Date(rental.dueDate).toLocaleDateString()
-                  : "Unknown Date"}
+              <li key={index}>
+                <BodyMedium>
+                  {rental.title || "Unknown Game"} - Due on{" "}
+                  {rental.dueDate
+                    ? new Date(rental.dueDate).toLocaleDateString()
+                    : "Unknown Date"}
+                </BodyMedium>
                 <br />
                 <img
                   src={rental.imageUrl}
                   alt={rental.title}
                   className="w-12 h-12"
                 />
-              </h3>
+              </li>
             ))
           ) : (
-            <p>No overdue rentals.</p>
+            <BodyMedium>No overdue rentals.</BodyMedium>
           )}
         </ul>
       </div>

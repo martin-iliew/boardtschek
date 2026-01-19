@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES, ROUTE_BUILDERS } from "@/routes";
+import { ROUTE_BUILDERS } from "@/routes";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { LabelSmall } from "@/components/ui/typography";
 
 interface SearchFormProps {
   placeholder?: string;
@@ -50,7 +51,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           className="absolute right-0 top-0 h-12 w-12 rounded-lg flex items-center justify-center"
         >
           <Search className="h-5 w-5 text-white" />
-          <span className="sr-only">Search</span>
+          <LabelSmall className="sr-only">Search</LabelSmall>
         </Button>
       </form>
     </div>

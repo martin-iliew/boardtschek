@@ -3,6 +3,7 @@ import { GameCard } from "@/components/GameCard";
 import SearchForm from "@/components/SearchForm";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { DisplayLarge, HeadingLarge, BodyMedium } from "@/components/ui/typography";
 
 interface Game {
   id: string;
@@ -47,10 +48,10 @@ export default function SearchResults() {
             marginBottom: "calc(50 / 2000 * 100vw)",
           }}
         >
-          <h1 className="mb-5 text-5xl text-background-text font-semibold uppercase text-center">
+          <DisplayLarge className="mb-5 text-5xl text-background-text font-semibold uppercase text-center">
             Search Results
-          </h1>
-          <p className="mb-10 text-lg text-background-subtext text-center">
+          </DisplayLarge>
+          <BodyMedium className="mb-10 text-lg text-background-subtext text-center">
             {query ? (
               <>
                 Results for: <strong>{query}</strong>
@@ -58,7 +59,7 @@ export default function SearchResults() {
             ) : (
               <>Showing all games</>
             )}
-          </p>
+          </BodyMedium>
           <div className="flex flex-col justify-center sm:flex-row">
             <SearchForm size="large" />
           </div>
@@ -76,17 +77,17 @@ export default function SearchResults() {
             paddingBottom: "calc(50 / 2000 * 100vw)",
           }}
         >
-          <h2
+          <HeadingLarge
             id="search-results-heading"
             className="text-4xl font-bold mb-6 text-center text-foreground-text"
           >
             Search Results
-          </h2>
+          </HeadingLarge>
 
           {loading ? (
-            <p className="text-center text-lg text-foreground-subtext">
+            <BodyMedium className="text-center text-lg text-foreground-subtext">
               Loading results...
-            </p>
+            </BodyMedium>
           ) : games && games.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {games.map((game) => (
@@ -102,9 +103,9 @@ export default function SearchResults() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-lg text-foreground-subtext">
+            <BodyMedium className="text-center text-lg text-foreground-subtext">
               No games found for "{query}".
-            </p>
+            </BodyMedium>
           )}
         </div>
       </section>

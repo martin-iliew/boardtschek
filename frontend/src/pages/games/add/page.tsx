@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import axios from "axios";
 import { difficultyMap } from "@/types/user";
 import { ROUTES } from "@/routes";
+import { HeadingMedium, BodyMedium, LabelMedium } from "@/components/ui/typography";
 
 // Define validation schema
 const gameSchema = z.object({
@@ -122,10 +123,10 @@ export default function AddGame() {
         <div className="w-full max-w-md">
           {/* Headings */}
           <div className="text-center">
-            <h1 className="text-2xl font-bold">Add a New Game</h1>
-            <p className="text-base text-subtext mt-4">
+            <HeadingMedium className="text-2xl font-bold">Add a New Game</HeadingMedium>
+            <BodyMedium className="text-base text-subtext mt-4">
               Add a new game to the system
-            </p>
+            </BodyMedium>
           </div>
 
           {/* Form */}
@@ -234,7 +235,7 @@ export default function AddGame() {
                   <FormControl>
                     <select
                       {...field}
-                      className="border border-subtext rounded px-2 py-1 bg-primary"
+                      className="border border-subtext rounded px-2 py-1"
                     >
                       <option value="Easy">Easy</option>
                       <option value="Medium">Medium</option>
@@ -268,7 +269,7 @@ export default function AddGame() {
             {/* Submit Button */}
             <div className="mt-8">
               <Button type="submit" variant="default" className="w-full">
-                Add Game
+                <LabelMedium>Add Game</LabelMedium>
               </Button>
             </div>
           </form>
